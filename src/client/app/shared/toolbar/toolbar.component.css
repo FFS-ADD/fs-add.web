@@ -1,4 +1,4 @@
-:host {
+.toolbar-contaner {
   background-color: #106cc8;
   color: rgba(255, 255, 255, 0.87);
   display: block;
@@ -11,6 +11,7 @@ h1 {
   font-size: 20px;
   font-weight: normal;
   letter-spacing: 0.1px;
+  padding-left: 10px;
   line-height: 48px;
 }
 
@@ -19,14 +20,71 @@ h1 {
   float: right;
   height: 24px;
   margin-top: 12px;
+  margin-left: 20px;
   width: 24px;
+  display: none;
 }
 
 .logo-img{
-  background: url("./assets/img/dashboard.jpg") 0 bottom no-repeat;
-  -webkit-background-size:cover;
+  background: url("./assets/img/dashboard.png") 0 bottom no-repeat;
   background-size: cover;
-  height: 32px;
-  width: 32px;
+  width: 40px;
   display: inline-block;
+  height: 40px;
+  padding-right: 5px;
+  vertical-align:middle
 }
+
+.toolbar{
+  height:50px;
+}
+
+.toolbar button{
+   border: solid 2px;
+   margin-left: 20px;
+   margin-top: 5px;
+   font-weight: 600;
+   float:right;
+ }
+
+.toolbar ul{
+  list-style:none;
+  height:50px;
+  padding-left:30px;
+  float:right;
+  margin: 0;
+}
+.toolbar li{
+  float:left;
+}
+
+
+
+.toolbar li a{
+  text-decoration:none;
+  color: rgba(255, 255, 255, 0.87);
+  display:block;
+  width:90px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  margin-left:1px;
+  /*设置圆角属性,IE6,7,8不支持*/
+  border-top-left-radius:15px;
+  border-top-right-radius:15px;
+}
+.toolbar li a:hover,.toolbar li a.on{
+  background-color:#FF6600;
+  color:#FFFFFF;
+}
+
+@media only screen and (max-width: 768px) {
+  .toolbar li .hide_on_mobile {
+    display: none;
+  }
+  .show_on_mobile {
+    display: inline-block;
+  }
+}
+
+
