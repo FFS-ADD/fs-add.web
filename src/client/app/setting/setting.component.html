@@ -1,0 +1,122 @@
+<div class="setting-content">
+
+    <md-card elevation="5">
+
+      <md-card-subtitle style="text-align: left">
+        <i class="fa fa-check-square-o" style="font-size: 20px; margin:4px 4px 0 0"></i>
+        <span style="font-size: 20px">KPI Threshold Setting</span>
+      </md-card-subtitle>
+
+      <md-card-content>
+
+        <p-confirmDialog width="425"></p-confirmDialog>
+
+        <div style="padding-bottom: 20px">
+        <p-dataTable [value]="projectSettings" [rows]="3" [paginator]="true" selectionMode="single" [(selection)]="selectedKpi">
+          <p-headerColumnGroup>
+            <p-row>
+              <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
+              <p-column header="ProjectName" colspan="1" rowspan="2"></p-column>
+              <p-column header="ProjectStatus" colspan="1" rowspan="2"></p-column>
+              <p-column header="Last Updated Day" colspan="1" rowspan="2"></p-column>
+            </p-row>
+          </p-headerColumnGroup>
+          <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
+          <p-column  field="no"></p-column>
+          <p-column field="system"></p-column>
+          <p-column field="catalog"></p-column>
+          <p-column field="kpi"></p-column>
+        </p-dataTable>
+        </div>
+
+        <div class="ui-widget-header" style="height: 30px; padding:4px 10px;border-bottom: 0 none;text-align: left">
+          Please set the KPI threshold for monitoring</div>
+
+        <div class="ui-widget-header" style="height: 40px; padding:4px 10px;border-top: 0 none;border-bottom: 0 none;text-align: left">
+          <i class="fa fa-search" style="height: 30px; margin:4px 4px 0 0"></i>
+          <input #gb type="text" pInputText style="height: 30px;" size="30" placeholder="Global Filter">
+        </div>
+        <p-dataTable [value]="projectSettings" [rows]="4" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedKpi">
+          <p-headerColumnGroup>
+            <p-row>
+              <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
+              <p-column header="System" colspan="1" rowspan="2"></p-column>
+              <p-column header="Catalog" colspan="1" rowspan="2"></p-column>
+              <p-column header="KPI" colspan="1" rowspan="2"></p-column>
+              <p-column header="Setting Value Scope" colspan="2"  [style]="{'width':'140px'}" ></p-column>
+              <p-column header="Notice Message" colspan="1" rowspan="2"></p-column>
+              <p-column header="Action" colspan="1" rowspan="2"></p-column>
+            </p-row>
+            <p-row>
+              <p-column header="Overcast"></p-column>
+              <p-column header="Rain"></p-column>
+            </p-row>
+          </p-headerColumnGroup>
+          <!--<p-footer><div style="text-align: left">Selected User: {{selectedUser ? selectedUser.no + ' - ' + selectedUser.project + ' - ' + selectedUser.avatar + ' - ' + selectedUser.email: 'none'}}</div></p-footer>-->
+          <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
+          <p-column  field="no"></p-column>
+          <p-column field="system"></p-column>
+          <p-column field="catalog"></p-column>
+          <p-column field="kpi"></p-column>
+          <p-column field="overcast"></p-column>
+          <p-column field="rain"></p-column>
+          <p-column field="noticeMsg"></p-column>
+          <p-column styleClass="col-button">
+            <template let-col let-user="rowData" pTemplate="body">
+              <button type="button" style="font-size: 12px;  height: 25px" (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
+            </template>
+          </p-column>
+        </p-dataTable>
+      </md-card-content>
+
+      <md-card style="height: 280px">
+        <md-card-content>
+          <div class="ui-g">
+            <div class="ui-g-3">
+            </div>
+            <div class="ui-g-6">
+              <form (ngSubmit)="onSubmit()" style="text-align: right">
+                <div class="field" style="padding-bottom: 3px; padding-right: 50px">
+                  <label for="project" style="padding-right: 10px">System</label>
+                  <input id="project" type="text" size="30" style="height: 30px;"placeholder="Global Filter"/>
+                </div>
+                <div class="field" style="padding-bottom: 3px;padding-right: 50px">
+                  <label for="email" style="padding-right: 10px">Catalog</label>
+                  <input id="email" type="text" size="30" required style="height: 30px;" placeholder="Global Filter" />
+                </div>
+                <div class="field" style="padding-bottom: 3px;  padding-right: 50px">
+                  <label for="password" style="padding-right: 10px">KPI</label>
+                  <input id="password" type="text" size="30" style="height: 30px;"  placeholder="Global Filter"/>
+                </div>
+                <div class="field" style="padding-bottom: 3px;  padding-right: 50px">
+                  <label for="firstName" style="padding-right: 10px">Overcast</label>
+                  <input id="firstName" type="text" size="30" style="height: 30px;"  placeholder="Global Filter" />
+                </div>
+                <div class="field" style="padding-bottom: 3px;  padding-right: 50px">
+                  <label for="lastName" style="padding-right: 10px">Rain</label>
+                  <input id="lastName" type="text" size="30" style="height: 30px;" placeholder="Global Filter"/>
+                </div>
+                <div class="field" style="padding-bottom: 3px;  padding-right: 50px">
+                  <label for="lastName" style="padding-right: 10px">Notice Message</label>
+                  <input id="lastName" type="text" size="30" style="height: 30px;" placeholder="Global Filter"/>
+                </div>
+              </form>
+              <div class="ui-g-4">
+                <button type="button" style="font-size: 14px;  height: 30px"  (click)="addNew()" pButton icon="fa-check" label="Add"></button>
+              </div>
+              <div class="ui-g-4">
+                <button type="button" style="font-size: 14px;  height: 30px" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
+              </div>
+              <div class="ui-g-4">
+                <button type="button" style="font-size: 14px;  height: 30px" (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
+              </div>
+            </div>
+            <div class="ui-g-3">
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+
+    </md-card>
+
+</div>

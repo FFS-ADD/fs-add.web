@@ -3,6 +3,8 @@
     "clean.once",
     "build.assets.dev",
     "build.html_css",
+    "build.theme_fonts",
+    "build.fonts",
     "build.js.dev",
     "build.index.dev"
   ],
@@ -26,6 +28,9 @@
     "build.html_css",
     "copy.prod",
     "build.js.prod",
+    "build.fonts",
+    "build.css_images",
+    "build.theme_fonts",
     "build.bundles",
     "build.bundles.app",
     "minify.bundles",
@@ -51,6 +56,8 @@
     "build.assets.dev",
     "build.html_css",
     "build.js.dev",
+    "build.fonts",
+    "build.theme_fonts",
     "build.js.test",
     "build.index.dev"
   ],

@@ -2,11 +2,17 @@
   <div class="logo-img"></div>
   <h1>Agile&DevOps Dashboard</h1>
   <div class="more show_on_mobile"></div>
-  <button>Sign in</button>
+  <button *ngIf="!user_logined" (click)="login()" >
+    <a [routerLink]="['/login']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Sign in</a>
+  </button>
+  <span *ngIf="user_logined" (click)="login()">
+    <img style="width: 35px; height: 35px; border-radius: 50%;" src="assets/img/dashboard.png">
+  </span>
   <ul>
-    <li><a class="hide_on_mobile" href="#">Introduce</a></li>
-    <li><a class="hide_on_mobile" href="#">Features</a></li>
-    <li><a class="hide_on_mobile" href="#">Settings</a></li>
-    <li><a class="hide_on_mobile" href="#">About US</a></li>
+    <li><a class="hide_on_mobile" [routerLink]="['/']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
+    <li><a class="hide_on_mobile" [routerLink]="['/management']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Mgmt</a></li>
+    <li><a class="hide_on_mobile" [routerLink]="['/setting']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Settings</a></li>
+    <li><a class="hide_on_mobile" [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Profile</a></li>
   </ul>
 </div>
+

@@ -354,6 +354,7 @@ export class SeedConfig {
     defaultJSExtensions: true,
     paths: {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
+      'primeng': `${this.APP_BASE}node_modules/primeng`,
       '@angular/common': 'node_modules/@angular/common/bundles/common.umd.js',
       '@angular/compiler': 'node_modules/@angular/compiler/bundles/compiler.umd.js',
       '@angular/core': 'node_modules/@angular/core/bundles/core.umd.js',
@@ -372,7 +373,8 @@ export class SeedConfig {
       '@angular/platform-browser-dynamic/testing':
         'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
       '@angular/router/testing': 'node_modules/@angular/router/bundles/router-testing.umd.js',
-
+      '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
+      'angular-in-memory-web-api': 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'app/*': '/app/*',
       // For test config
       'dist/dev/*': '/base/dist/dev/*',

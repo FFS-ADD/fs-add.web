@@ -9,5 +9,16 @@ import { Component } from '@angular/core';
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.css']
 })
-export class ToolbarComponent { }
+export class ToolbarComponent {
+  user_logined: boolean;
+
+  constructor() {
+    this.user_logined = false;
+  }
+
+  login() {
+    this.user_logined = !this.user_logined;
+  }
+
+}
 

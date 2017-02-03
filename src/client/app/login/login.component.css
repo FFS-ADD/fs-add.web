@@ -1,0 +1,67 @@
+.login-content {
+  width:100%;
+  height:710px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: repeat;
+
+  background-image: url(assets/img/background.jpg);
+}
+
+md-card {
+  text-align:center;
+  background-color: #F5F5F5;
+
+  width:85%;
+  height:460px;
+  max-width:350px;
+}
+
+input {
+  display:block;
+}
+
+button {
+  display:block;
+  width:100%;
+  margin-right:5px;
+}
+
+button:disabled{
+  border: 1px solid #DDD;
+  background-color: #F5F5F5;
+  color:#ACA899;
+}
+
+button[disabled]{
+  border: 1px solid #DDD;
+  background-color: #F5F5F5;
+  color:#ACA899;
+}
+
+.input-width {
+  width:100%;
+  margin-right:5px;
+}
+
+md-spinner {
+    width:25px;
+    height:25px;
+    margin:20px auto 0 auto;
+}
+
+
+.error {
+  color:red;
+  font-weight: bold;
+}
+
+/*.ng-valid[required], .ng-valid.required  {*/
+  /*border-left: 5px solid #42A948; !* green *!*/
+/*}*/
+
+/*.ng-invalid:not(form)  {*/
+  /*border-left: 5px solid #a94442; !* red *!*/
+/*}*/

@@ -1,8 +1,8 @@
 .toolbar-contaner {
-  background-color: #106cc8;
+  background-color: #3295c8;
   color: rgba(255, 255, 255, 0.87);
   display: block;
-  height: 48px;
+  height: 60px;
   padding: 0 16px;
 }
 
@@ -12,14 +12,14 @@ h1 {
   font-weight: normal;
   letter-spacing: 0.1px;
   padding-left: 10px;
-  line-height: 48px;
+  line-height: 60px;
 }
 
 .more {
   background: url("./assets/svg/more.svg");
   float: right;
   height: 24px;
-  margin-top: 12px;
+  margin-top: 18px;
   margin-left: 20px;
   width: 24px;
   display: none;
@@ -36,29 +36,35 @@ h1 {
 }
 
 .toolbar{
-  height:50px;
+  height:60px;
 }
 
 .toolbar button{
    border: solid 2px;
+   background-color: #3295c8;
    margin-left: 20px;
-   margin-top: 5px;
+   margin-top: 10px;
    font-weight: 600;
    float:right;
  }
 
+.toolbar span{
+  margin-left: 20px;
+  margin-top: 10px;
+  float:right;
+}
+
 .toolbar ul{
   list-style:none;
-  height:50px;
+  height:60px;
   padding-left:30px;
   float:right;
   margin: 0;
 }
 .toolbar li{
   float:left;
+  margin-top: 10px;
 }
-
-
 
 .toolbar li a{
   text-decoration:none;
@@ -69,12 +75,10 @@ h1 {
   line-height:40px;
   text-align:center;
   margin-left:1px;
-  /*设置圆角属性,IE6,7,8不支持*/
-  border-top-left-radius:15px;
-  border-top-right-radius:15px;
 }
+
 .toolbar li a:hover,.toolbar li a.on{
-  background-color:#FF6600;
+  background-color: rgba(134, 106, 114, 0.25);
   color:#FFFFFF;
 }
 

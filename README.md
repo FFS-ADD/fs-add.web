@@ -1,11 +1,6 @@
 # Introduction
 
-[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
-[![Build Status](https://travis-ci.org/mgechev/angular-seed.svg?branch=master)](https://travis-ci.org/mgechev/angular-seed)
-[![Build Status](https://ci.appveyor.com/api/projects/status/jg5vg36w0klpa00e/branch/master?svg=true)](https://ci.appveyor.com/project/mgechev/angular2-seed)
-[![Join the chat at https://gitter.im/mgechev/angular2-seed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mgechev/angular2-seed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-FS Agile&DevOps Dashboard Web client based on angular-seed and use ng2-bootstrap as UI componet.
+FS Agile&DevOps Dashboard Web client based on angular-seed and use angular-material as UI componet.
 What we have is based on angular-seed. You can find the whole introduce on angular-seed(https://github.com/mgechev/angular-seed).
 
 - Allows you to painlessly update the seed tasks of your already existing project.

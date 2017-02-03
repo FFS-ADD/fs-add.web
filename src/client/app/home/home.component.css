@@ -1,13 +1,12 @@
-:host {
-  display: block;
-  padding: 0 16px;
+.home-content {
+  width:100%;
+  height:710px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: repeat;
+
+  background-image: url(assets/img/background.jpg);
 }
 
-input {
-  width: 250px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0 0 0 8px;
-}

@@ -1,0 +1,34 @@
+<div class="login-content">
+
+    <md-card elevation="5">
+
+      <md-card-title>
+        <h2>Sign in to ADD</h2>
+      </md-card-title>
+
+      <md-card-content>
+
+        <p >Please use accenture EID to login.</p>
+
+        <form  *ngIf="!submitted" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+          <md-input-container class="input-width">
+            <input md-input formControlName="username" required placeholder="username">
+          </md-input-container>
+          <br>
+          <md-input-container class="input-width">
+            <input md-input formControlName="password" type="password"  required placeholder="password">
+          </md-input-container>
+          <br>
+          <br>
+           <button class="login-button" type="submit"  [disabled]="!loginForm.valid">Login</button>
+        </form>
+
+        <md-spinner *ngIf="submitted" mode="indeterminate"></md-spinner>
+
+        <p class="error" *ngIf="errorDiagnostic">{{errorDiagnostic}}</p>
+
+      </md-card-content>
+
+    </md-card>
+
+</div>
