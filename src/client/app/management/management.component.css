@@ -46,3 +46,63 @@ md-card {
   color: #004974;
   text-decoration: none;
 }
+
+.title-align-left {
+  text-align: left;
+  font-size: 20px;
+}
+
+.title-align-left i{
+  margin:4px 4px 0 0;
+}
+
+.div-padding-bottom {
+  padding-bottom: 20px
+}
+
+.monitor-information {
+  height: 30px;
+  padding:4px 10px;
+  border-bottom: 0 none;
+  text-align: left
+}
+.div-threshold {
+  height: 40px;
+  padding:4px 10px;
+  border-top: 0 none;
+  border-bottom: 0 none;
+  text-align: left
+}
+.div-threshold i {
+  height: 30px;
+  margin:4px 4px 0 0;
+}
+
+.div-threshold input {
+  height: 30px;
+}
+
+.form-threshold {
+  text-align: right;
+}
+
+.input-div-container{
+  padding-bottom: 3px;
+  padding-right: 50px
+}
+.input-div-container label {
+  padding-right: 10px;
+}
+.input-div-container input {
+  height: 30px;
+}
+
+.footer-button {
+  font-size: 14px;
+  height: 30px
+}
+
+.action-button {
+  font-size: 12px;
+  height: 25px;
+}

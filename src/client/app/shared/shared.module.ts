@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { FooterComponent } from './footer/footer.component';
 import { NameListService } from './name-list/name-list.service';
 import { UserService } from './user/user.service';
 
@@ -16,8 +17,8 @@ import { userData } from './mock-data/user-mock-data';
 
 @NgModule({
   imports: [CommonModule, RouterModule, InMemoryWebApiModule.forRoot(userData, {delay: 500})],
-  declarations: [ToolbarComponent],
-  exports: [ToolbarComponent,
+  declarations: [ToolbarComponent, FooterComponent],
+  exports: [ToolbarComponent,FooterComponent,
     CommonModule, FormsModule, RouterModule]
 })
 export class AppSharedModule {

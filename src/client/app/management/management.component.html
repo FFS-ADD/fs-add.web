@@ -2,18 +2,18 @@
 
     <md-card elevation="5">
 
-      <md-card-subtitle style="text-align: left">
-        <i class="fa fa-users" style="font-size: 20px; margin:4px 4px 0 0"></i>
-        <span style="font-size: 20px">User Management</span>
+      <md-card-subtitle class="title-align-left">
+        <i class="fa fa-users"></i>
+        <span>User Management</span>
       </md-card-subtitle>
 
       <md-card-content>
 
-        <p-confirmDialog width="425"></p-confirmDialog>
+        <p-confirmDialog></p-confirmDialog>
 
-        <div class="ui-widget-header" style="height: 40px; padding:4px 10px;border-bottom: 0 none;text-align: left">
-          <i class="fa fa-search" style="height: 30px; margin:4px 4px 0 0"></i>
-          <input #gb type="text" pInputText style="height: 30px;" size="30" placeholder="Global Filter">
+        <div class="ui-widget-header div-threshold">
+          <i class="fa fa-search"></i>
+          <input #gb type="text" pInputText size="30" placeholder="Global Filter">
         </div>
         <p-dataTable [value]="users" [rows]="3" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedUser">
           <p-headerColumnGroup>
@@ -28,7 +28,6 @@
               <p-column header="Action" [style]="{width:'85px'}"></p-column>
             </p-row>
           </p-headerColumnGroup>
-          <!--<p-footer><div style="text-align: left">Selected User: {{selectedUser ? selectedUser.no + ' - ' + selectedUser.project + ' - ' + selectedUser.avatar + ' - ' + selectedUser.email: 'none'}}</div></p-footer>-->
           <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
           <p-column  field="no"></p-column>
           <p-column field="project"></p-column>
@@ -42,7 +41,7 @@
           <p-column field="lastName"></p-column>
           <p-column styleClass="col-button">
             <template let-col let-user="rowData" pTemplate="body">
-              <button type="button" style="font-size: 12px;  height: 25px" (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
+              <button type="button" class="action-button" (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
             </template>
           </p-column>
         </p-dataTable>
@@ -53,9 +52,6 @@
           <div class="ui-g">
             <div class="ui-g-5">
               <img style="width: 160px; height:160px; border-radius: 50%;" src="{{selectedUser ? selectedUser.avatar: null}}">
-              <!--<p-fileUpload name="myfile[]" url="http://localhost:3000/upload"-->
-                            <!--accept="image/*" maxFileSize="1000000">-->
-              <!--</p-fileUpload>-->
               <div style="padding-top: 5px">
                 <button class="uploadfile" [disabled]="isUploading">{{uploadMessage}}
                   <input type="file" name="" id="" maxlength="1000000"  accept="image/png,image/gif" (change)="fileChangeEvent($event)">
