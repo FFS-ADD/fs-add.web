@@ -1,12 +1,14 @@
 import { Inject } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import 'rxjs/add/observable/interval';
-import {KpiProfile} from '../shared/setting/kpi-profile'
-import { UserService } from '../shared/user/user.service';
+import {ProjectProfile, ThresholdProfile} from './setting.interface'
+import { SettingService } from './setting.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
+import {DialogModule} from 'primeng/primeng';
+import {ThresholdPipe} from './setting.pipe';
 
 @Component({
   moduleId: module.id,
@@ -19,21 +21,27 @@ import { ConfirmationService} from 'primeng/primeng';
 export class SettingComponent implements OnInit{
 
   errorDiagnostic: string;
-  projectSettings:  KpiProfile[];
+  projectsInfo:  ProjectProfile[];
+  selectedProject:Object;
+  thresholdInfo: ThresholdProfile[];
+  thresholdShow:ThresholdProfile[];
   uploadMessage: string;
   isUploading: boolean;
+  display: boolean;
 
-  constructor(private _userService: UserService, private http:
+  constructor(private setingService: SettingService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
+    this.display=false;
   }
 
   ngOnInit() {
-    this.getUsers();
+    this.getProjectInfo();
+    this.getThresholdInfo();
   }
 
-  confirmPopup(event: any) {
+  delConfirm(event: any) {
     this.confirmationService.confirm({
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
@@ -44,73 +52,50 @@ export class SettingComponent implements OnInit{
     });
   }
 
-
-  fileChangeEvent(event:any) {
-    let fileList: FileList = event.target.files;
-    if(fileList.length > 0) {
-      let file: File = fileList[0];
-      this.uploadMessage="uploading..."
-      this.isUploading = true;
-      this._userService.uploadAvatarPicture(file).subscribe(data => {
-          this.uploadMessage= "upload new picture";
-          this.isUploading = false;
-          this._router.navigate(['/']);
-        },
-        error => {
-          this.uploadMessage= "upload new picture";
-          this.isUploading = false;
-          let objectSource:any = USER_STATUS_CODES;
-          this.errorDiagnostic =  objectSource[error.status] || objectSource[500];
-          // this._router.navigate(['/']);
-        });
-    }
+  UnSelectedClick(event:any) {
+    this.selectedProject ={};
+    this.thresholdShow = this.thresholdInfo;
   }
 
-  getUsers() {
-    // this.errorDiagnostic = null;
-    // this._userService.getUsers().subscribe(res => {
-    //     this.users = res;
-    // },
-    // error => {
-    //   let objectSource: any = USER_STATUS_CODES;
-    //   this.errorDiagnostic = objectSource[error.status] || objectSource[500];
-    //   this._router.navigate(['/']);
-    // });
-    this.projectSettings = [
-        {
-        "no": 1,
-        "system": "Redmine",
-        "catalog": "bug",
-        "kpi": "bug Amount",
-        "overcast": "0.8",
-        "rain": "1",
-        "noticeMsg":"Please bug"
-        },{
-        "no": 2,
-        "system": "Redmine",
-        "catalog": "task",
-        "kpi": "task Amount",
-        "overcast": "0.8",
-        "rain": "1",
-        "noticeMsg":"Please task"
-        }, {
-        "no": 3,
-        "system": "Redmine",
-        "catalog": "QA",
-        "kpi": "QA Amount",
-        "overcast": "0.8",
-        "rain": "1",
-        "noticeMsg":"Please QA"
-      }, {
-        "no": 4,
-        "system": "SonarQube",
-        "catalog": "Quality",
-        "kpi": "Quality Threshold",
-        "overcast": "0.8",
-        "rain": "1",
-        "noticeMsg":"Please Quality"
+  addProject(event:any) {
+    this.display = true;
+  }
+
+  addThreshold(event:any) {
+    this.display = true;
+  }
+
+  editProject(no: number) {
+    this.display = true;
+  }
+
+  editThreshold(no: number) {
+    this.display = true;
+  }
+
+  onPrjectSelect(event: any ) {
+    this.thresholdShow = this.thresholdInfo.filter( (threshold) => {
+      if (event.data.projectName === "all") {
+        return true;
+      } else {
+        return threshold.project === event.data.projectName;
       }
-    ];
+    });
+
+  }
+
+  getProjectInfo() {
+    this.setingService.getProjectsInfo()
+      .subscribe(
+        projectsInfo => this.projectsInfo = projectsInfo,
+        error =>  this.errorDiagnostic = <any>error);
+  }
+
+  getThresholdInfo() {
+    this.setingService.getThresholdInfo()
+      .subscribe(
+        thresholdInfo => this.thresholdInfo = this.thresholdShow = thresholdInfo,
+        error =>  this.errorDiagnostic = <any>error);
   }
 
 }

@@ -4,11 +4,13 @@ import { MaterialModule } from '@angular/material';
 import { SettingComponent } from './setting.component';
 import { SettingRoutingModule } from './setting-routing.module';
 import { AppSharedModule } from '../shared/shared.module';
-import { NameListService } from '../shared/name-list/name-list.service';
-import { UserService } from '../shared/user/user.service';
+import { SettingService } from './setting.service';
 import {DataTableModule, SharedModule} from 'primeng/primeng';
 import {FileUploadModule} from 'primeng/primeng';
 import {ConfirmDialogModule} from 'primeng/primeng';
+import {DialogModule} from 'primeng/primeng';
+import {ThresholdPipe} from './setting.pipe';
+
 
 
 @NgModule({
@@ -18,12 +20,11 @@ import {ConfirmDialogModule} from 'primeng/primeng';
     DataTableModule,
     FileUploadModule,
     ConfirmDialogModule,
+    DialogModule,
     SharedModule,
     MaterialModule.forRoot()],
-  declarations: [SettingComponent],
+  declarations: [SettingComponent,ThresholdPipe],
   exports: [SettingComponent],
-  providers: [NameListService,
-    UserService
-   ]
+  providers: [SettingService]
 })
 export class SettingModule { }

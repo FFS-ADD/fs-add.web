@@ -9,7 +9,7 @@
 
       <md-card-content>
 
-        <p-confirmDialog></p-confirmDialog>
+        <p-confirmDialog width="425"></p-confirmDialog>
 
         <div class="ui-widget-header div-threshold">
           <i class="fa fa-search"></i>
@@ -47,12 +47,12 @@
         </p-dataTable>
       </md-card-content>
 
-      <md-card style="height: 280px">
+      <md-card class="sub-card-height">
         <md-card-content>
           <div class="ui-g">
             <div class="ui-g-5">
-              <img style="width: 160px; height:160px; border-radius: 50%;" src="{{selectedUser ? selectedUser.avatar: null}}">
-              <div style="padding-top: 5px">
+              <img class="avatar-image" src="{{selectedUser ? selectedUser.avatar: null}}">
+              <div >
                 <button class="uploadfile" [disabled]="isUploading">{{uploadMessage}}
                   <input type="file" name="" id="" maxlength="1000000"  accept="image/png,image/gif" (change)="fileChangeEvent($event)">
                 </button>
@@ -60,36 +60,36 @@
               <p class="error" *ngIf="errorDiagnostic">{{errorDiagnostic}}</p>
             </div>
             <div class="ui-g-6">
-              <form (ngSubmit)="onSubmit()" style="text-align: right">
-                <div class="field" style="padding-bottom: 3px">
-                  <label for="project" style="padding-right: 10px">Project</label>
-                  <input id="project" type="text" size="30" style="height: 30px;"placeholder="Global Filter"/>
+              <form (ngSubmit)="onSubmit()" class="form-threshold">
+                <div class="field input-div-container">
+                  <label for="project" >Project</label>
+                  <input id="project" type="text" size="30" placeholder="Global Filter"/>
                 </div>
-                <div class="field" style="padding-bottom: 3px">
-                  <label for="email" style="padding-right: 10px">Email</label>
-                  <input id="email" type="text" size="30" required style="height: 30px;" placeholder="Global Filter" />
+                <div class="field input-div-container">
+                  <label for="email" >Email</label>
+                  <input id="email" type="text" size="30" required placeholder="Global Filter" />
                 </div>
-                <div class="field" style="padding-bottom: 3px">
-                  <label for="password" style="padding-right: 10px">Password</label>
-                  <input id="password" type="text" size="30" style="height: 30px;"  placeholder="Global Filter"/>
+                <div class="field input-div-container">
+                  <label for="password" >Password</label>
+                  <input id="password" type="text" size="30"  placeholder="Global Filter"/>
                 </div>
-                <div class="field" style="padding-bottom: 3px">
-                  <label for="firstName" style="padding-right: 10px">FirstName</label>
-                  <input id="firstName" type="text" size="30" style="height: 30px;"  placeholder="Global Filter" />
+                <div class="field input-div-container">
+                  <label for="firstName" >FirstName</label>
+                  <input id="firstName" type="text" size="30"   placeholder="Global Filter" />
                 </div>
-                <div class="field" style="padding-bottom: 3px">
-                  <label for="lastName" style="padding-right: 10px">LastName</label>
-                  <input id="lastName" type="text" size="30" style="height: 30px;" placeholder="Global Filter"/>
+                <div class="field input-div-container">
+                  <label for="lastName" >LastName</label>
+                  <input id="lastName" type="text" size="30"  placeholder="Global Filter"/>
                 </div>
               </form>
               <div class="ui-g-4">
-                <button type="button" style="font-size: 14px;  height: 30px"  (click)="addNew()" pButton icon="fa-check" label="Add"></button>
+                <button type="button" class="footer-button"  [disabled]="false" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
               </div>
               <div class="ui-g-4">
-                <button type="button" style="font-size: 14px;  height: 30px" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
+                <button type="button" class="footer-button" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
               </div>
               <div class="ui-g-4">
-                <button type="button" style="font-size: 14px;  height: 30px" (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
+                <button type="button" class="footer-button" (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
               </div>
             </div>
           </div>

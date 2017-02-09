@@ -14,14 +14,15 @@ export class UserService {
   private _logoutApi = this._apiBase + '/logout';
   private _uploadImageApi = 'api/uploadImage';
 
-
+  private userlistURL = 'app/userlist';
+  private projectSettingURL = 'app/projectSettings'
 
   login(user:any) {
     let body = JSON.stringify(user);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.post(this._loginApi, body, <RequestOptionsArgs> {headers: headers, withCredentials: true})
+    return this.http.post(this.userlistURL, body, <RequestOptionsArgs> {headers: headers, withCredentials: true})
                     .map((res: Response) => res)
                     .catch(this.handleError);
   }
@@ -32,12 +33,21 @@ export class UserService {
                     .catch(this.handleError);
   }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body.data || { };
+  }
+
   getUsers() {
-    // return this.http.get(this._apiBase + "/api/users?limit=5&desc=true", <RequestOptionsArgs> {withCredentials: true})
-    //               .map((res: Response) => res.json())
-    //               .catch(this.handleError);
-    return this.http.get("assets/mockdata/usersdata.json")
-      .map((res: Response) => res.json())
+    return this.http.get(this.userlistURL)
+      .map(this.extractData)
+      .catch(this.handleError);
+
+  }
+
+  getProjectSettings() {
+    return this.http.get(this.projectSettingURL)
+      .map(this.extractData)
       .catch(this.handleError);
 
   }

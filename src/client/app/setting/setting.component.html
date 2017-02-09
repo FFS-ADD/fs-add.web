@@ -9,23 +9,77 @@
 
       <md-card-content>
 
-        <p-confirmDialog></p-confirmDialog>
+        <!--<p-confirmDialog icon="fa fa-question-circle" width="425"></p-confirmDialog>-->
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" #cd>
+          <p-footer>
+            <button type="button" class="action-button" pButton icon="fa-close" label="No" (click)="cd.reject()"></button>
+            <button type="button" class="action-button" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
+          </p-footer>
+        </p-confirmDialog>
+
+        <p-dialog header="Edit" modal=true [(visible)]="display">
+          <form (ngSubmit)="onSubmit()" class="form-threshold">
+            <div class="field input-div-container">
+              <label for="system">System</label>
+              <input id="system" type="text" size="30" placeholder="Global Filter"/>
+            </div>
+            <div class="field input-div-container">
+              <label for="catalog">Catalog</label>
+              <input id="catalog" type="text" size="30" required  placeholder="Global Filter" />
+            </div>
+            <div class="field input-div-container" >
+              <label for="kpi">KPI</label>
+              <input id="kpi" type="text" size="30" placeholder="Global Filter"/>
+            </div>
+            <div class="field input-div-container" >
+              <label for="overcast" >Overcast</label>
+              <input id="overcast" type="text" size="30"  placeholder="Global Filter" />
+            </div>
+            <div class="field input-div-container" >
+              <label for="rain">Rain</label>
+              <input id="rain" type="text" size="30"  placeholder="Global Filter"/>
+            </div>
+            <div class="field input-div-container" >
+              <label for="message">Notice Message</label>
+              <input id="message" type="text" size="30"placeholder="Global Filter"/>
+            </div>
+          </form>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+              <button type="button" pButton class="action-button" icon="fa-close" (click)="display=false" label="Cancel"></button>
+              <button type="button" pButton class="action-button" icon="fa-check" (click)="display=false" label="Save"></button>
+            </div>
+          </p-footer>
+        </p-dialog>
 
         <div class="div-padding-bottom">
-        <p-dataTable [value]="projectSettings" [rows]="3" [paginator]="true" selectionMode="single" [(selection)]="selectedKpi">
+        <div class="ui-widget-header div-threshold">
+          <button type="button" class="add-new-button" (click)="addProject()" pButton icon="fa-plus-square-o" label="Add"></button>
+          <button type="button" class="add-new-button" (click)="UnSelectedClick()" pButton icon="fa-refresh" label="UnSelect"></button>
+        </div>
+        <p-dataTable [value]="projectsInfo" [rows]="3" [paginator]="true" selectionMode="single" [(selection)]="selectedProject"
+                     (onRowSelect)="onPrjectSelect($event)">
           <p-headerColumnGroup>
             <p-row>
               <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
               <p-column header="ProjectName" colspan="1" rowspan="2"></p-column>
               <p-column header="ProjectStatus" colspan="1" rowspan="2"></p-column>
               <p-column header="Last Updated Day" colspan="1" rowspan="2"></p-column>
+              <p-column header="End Day" colspan="1" rowspan="2"></p-column>
+              <p-column header="Action" colspan="1" rowspan="2" [style]="{'width':'90px'}"></p-column>
             </p-row>
           </p-headerColumnGroup>
           <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
           <p-column  field="no"></p-column>
-          <p-column field="system"></p-column>
-          <p-column field="catalog"></p-column>
-          <p-column field="kpi"></p-column>
+          <p-column field="projectName"></p-column>
+          <p-column field="projectStatus"></p-column>
+          <p-column field="lastUpdateDay"></p-column>
+          <p-column field="endDay"></p-column>
+          <p-column styleClass="col-button">
+            <template let-col let-project="rowData" pTemplate="body">
+                  <button type="button" class="action-button"  (click)="editProject(project.no)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
+            </template>
+          </p-column>
         </p-dataTable>
         </div>
 
@@ -35,17 +89,19 @@
         <div class="ui-widget-header div-threshold">
           <i class="fa fa-search" ></i>
           <input #gb type="text" pInputText size="30" placeholder="Global Filter">
+          <button type="button" class="add-new-button" (click)="addThreshold()" pButton icon="fa-plus-square-o" label="Add"></button>
         </div>
-        <p-dataTable [value]="projectSettings" [rows]="4" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedKpi">
+        <p-dataTable [value]="thresholdShow" [rows]="4" [paginator]="true" [globalFilter]="gb" #dt>
           <p-headerColumnGroup>
             <p-row>
               <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
+              <p-column header="Project" colspan="1" rowspan="2"></p-column>
               <p-column header="System" colspan="1" rowspan="2"></p-column>
               <p-column header="Catalog" colspan="1" rowspan="2"></p-column>
               <p-column header="KPI" colspan="1" rowspan="2"></p-column>
               <p-column header="Setting Value Scope" colspan="2"  [style]="{'width':'140px'}" ></p-column>
               <p-column header="Notice Message" colspan="1" rowspan="2"></p-column>
-              <p-column header="Action" colspan="1" rowspan="2"></p-column>
+              <p-column header="Action" colspan="1" rowspan="2" [style]="{'width':'180px'}"></p-column>
             </p-row>
             <p-row>
               <p-column header="Overcast"></p-column>
@@ -55,6 +111,7 @@
           <!--<p-footer><div style="text-align: left">Selected User: {{selectedUser ? selectedUser.no + ' - ' + selectedUser.project + ' - ' + selectedUser.avatar + ' - ' + selectedUser.email: 'none'}}</div></p-footer>-->
           <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
           <p-column  field="no"></p-column>
+          <p-column field="project"></p-column>
           <p-column field="system"></p-column>
           <p-column field="catalog"></p-column>
           <p-column field="kpi"></p-column>
@@ -63,59 +120,18 @@
           <p-column field="noticeMsg"></p-column>
           <p-column styleClass="col-button">
             <template let-col let-user="rowData" pTemplate="body">
-              <button type="button" class="action-button"  (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
+              <div class="ui-g">
+                <div class="ui-g-6">
+                  <button type="button" class="action-button"  (click)="editThreshold(user.no)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
+                </div>
+                <div class="ui-g-6">
+                  <button type="button" class="action-button"  (click)="delConfirm(user.no)" pButton icon="fa-trash" label="Delete"></button>
+                </div>
+              </div>
             </template>
           </p-column>
         </p-dataTable>
       </md-card-content>
-
-      <md-card style="height: 280px">
-        <md-card-content>
-          <div class="ui-g">
-            <div class="ui-g-3">
-            </div>
-            <div class="ui-g-6">
-              <form (ngSubmit)="onSubmit()" class="form-threshold">
-                <div class="field input-div-container">
-                  <label for="system">System</label>
-                  <input id="system" type="text" size="30" placeholder="Global Filter"/>
-                </div>
-                <div class="field input-div-container">
-                  <label for="catalog">Catalog</label>
-                  <input id="catalog" type="text" size="30" required  placeholder="Global Filter" />
-                </div>
-                <div class="field input-div-container" >
-                  <label for="kpi">KPI</label>
-                  <input id="kpi" type="text" size="30" placeholder="Global Filter"/>
-                </div>
-                <div class="field input-div-container" >
-                  <label for="overcast" >Overcast</label>
-                  <input id="overcast" type="text" size="30"  placeholder="Global Filter" />
-                </div>
-                <div class="field input-div-container" >
-                  <label for="rain">Rain</label>
-                  <input id="rain" type="text" size="30"  placeholder="Global Filter"/>
-                </div>
-                <div class="field input-div-container" >
-                  <label for="message">Notice Message</label>
-                  <input id="message" type="text" size="30"placeholder="Global Filter"/>
-                </div>
-              </form>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
-              </div>
-              <div class="ui-g-4">
-                <button type="button"  class="footer-button"  (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
-              </div>
-              <div class="ui-g-4">
-                <button type="button"  class="footer-button"  (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
-              </div>
-            </div>
-            <div class="ui-g-3">
-            </div>
-          </div>
-        </md-card-content>
-      </md-card>
 
     </md-card>
 

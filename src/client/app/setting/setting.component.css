@@ -1,6 +1,6 @@
 .setting-content {
   width:100%;
-  height:900px;
+  height:710px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@ md-card {
   background-color: #F5F5F5;
 
   width:100%;
-  height: 800px;
+  height: 650px;
   max-width:1000px;
 }
 
@@ -71,6 +71,12 @@ md-card {
 .footer-button {
   font-size: 14px;
   height: 30px
+}
+
+.add-new-button {
+  font-size: 14px;
+  height: 30px;
+  float: right;
 }
 
 .action-button {
