@@ -7,7 +7,7 @@ import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
-import { ModalInfo } from './setting.class'
+import { ProjectModalInfo,KpiModalInfo } from './setting.class'
 import {forEach} from "@angular/router/src/utils/collection";
 import {SelectItem} from 'primeng/primeng';
 
@@ -30,17 +30,34 @@ export class SettingComponent implements OnInit{
   thresholdShow:ThresholdProfile[];
   uploadMessage: string;
   isUploading: boolean;
-  thresholdModal: ModalInfo;
-  projectModal: ModalInfo;
+  thresholdModal: KpiModalInfo;
+  projectModal: ProjectModalInfo;
   projectList: SelectItem[];
-  date1:Date;
+  selectedAddProject: string;
 
   constructor(private setingService: SettingService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
-    this.thresholdModal =  { title: "", display: false };
-    this.projectModal = { title: "", display: false };
+    this.selectedAddProject="";
+    this.projectModal = {
+      title: "",
+      display: false,
+      projectName: "",
+      projectStatus: "",
+      updateDate: new Date(),
+      endDate: new Date()
+    };
+    this.thresholdModal =  {
+      title: "",
+      display: false,
+      system: "",
+      catalog: "",
+      kpi: "",
+      overCast:"",
+      rain: "",
+      noticeMsg: ""
+    };
     this.projectList = [];
 
   }
@@ -67,19 +84,52 @@ export class SettingComponent implements OnInit{
   }
 
   addProject() {
-    this.projectModal = { title: "Add New Project", display: true };
+    this.projectModal = {
+      title: "Add New Project",
+      display: true,
+      projectName: "",
+      projectStatus: "",
+      updateDate: new Date(),
+      endDate: new Date()
+    };
   }
 
   addThreshold() {
-    this.thresholdModal =  { title: "Add New Threshold", display: true };
+    this.thresholdModal =  {
+      title: "Add New Threshold",
+      display: true,
+      system: "",
+      catalog: "",
+      kpi: "",
+      overCast:"",
+      rain: "",
+      noticeMsg: ""
+    };
   }
 
-  editProject(no: number) {
-    this.projectModal = { title: "Edit Project", display: true };
+  editProject(project: ProjectProfile) {
+    this.projectModal = {
+      title: "Edit Project",
+      display: true,
+      projectName: project.projectName,
+      projectStatus: project.projectStatus,
+      updateDate: new Date(project.lastUpdateDay),
+      endDate:  new Date(project.endDay)
+    };
   }
 
-  editThreshold(no: number) {
-    this.thresholdModal =  { title: "Edit Threshold", display: true };
+  editThreshold(threshold: ThresholdProfile) {
+    this.thresholdModal =  {
+      title: "Edit Threshold",
+      display: true,
+      system: threshold.system,
+      catalog: threshold.catalog,
+      kpi: threshold.kpi,
+      overCast:threshold.overcast,
+      rain:threshold.rain,
+      noticeMsg: threshold.noticeMsg
+    };
+    this.selectedAddProject = threshold.project;
   }
 
   onProjectSelect(event: any ) {

@@ -17,40 +17,42 @@
           </p-footer>
         </p-confirmDialog>
 
-        <p-dialog header="{{projectModal.title}}" width=500 height=500 modal=true [(visible)]="projectModal.display">
-          <form (ngSubmit)="onProjectSubmit()" class="form-project">
+        <p-dialog header="{{projectModal.title}}" width=500 height=510 modal=true [(visible)]="projectModal.display">
+          <form  class="form-project">
             <div class="field input-div-container">
               <label for="projectName">ProjectName</label>
-              <input id="projectName" type="text" size="30" required placeholder="eg.PJT"/>
+              <input id="projectName" type="text" size="30"  [ngModelOptions]="{standalone: true}"
+                     required placeholder="eg.PJT" [(ngModel)]="projectModal.projectName" />
             </div>
             <div class="field input-div-container">
               <label for="projectStatus">ProjectStatus</label>
-              <input id="projectStatus" type="text" size="30" required  placeholder="eg.In progress" />
+              <input id="projectStatus" type="text" size="30" [ngModelOptions]="{standalone: true}"
+                     required  placeholder="eg.In progress" [(ngModel)]="projectModal.projectStatus" />
             </div>
             <div class="field input-div-container" >
               <label>Last Updated Day</label>
-              <p-calendar [(ngModel)]="updateDate" [inputStyle]="{'width':'235px','height': '30px'}"
-                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+              <p-calendar [(ngModel)]="projectModal.updateDate" [inputStyle]="{'width':'235px','height': '30px'}"
+                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
             <div class="field input-div-container" >
               <label>End Day</label>
-              <p-calendar [(ngModel)]="endDate" [inputStyle]="{'width':'235px','height': '30px'}"
-                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+              <p-calendar [(ngModel)]="projectModal.endDate" [inputStyle]="{'width':'235px','height': '30px'}"
+                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
           </form>
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-              <button type="button" pButton class="action-button" icon="fa-close" (click)="display=false" label="Cancel"></button>
-              <button type="button" pButton class="action-button" icon="fa-check" (click)="display=false" label="Save"></button>
+              <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
+              <button type="button" pButton class="action-button" icon="fa-check" (click)="onProjectSubmit()" label="Save"></button>
             </div>
           </p-footer>
         </p-dialog>
 
 
         <p-dialog header="{{thresholdModal.title}}" modal=true [(visible)]="thresholdModal.display">
-          <form (ngSubmit)="onKPISubmit()" class="form-threshold">
+          <form  class="form-threshold">
             <div class="field input-div-container">
               <label style="text-align: left">Project</label>
               <p-dropdown [options]="projectList" required [(ngModel)]="selectedAddProject"
@@ -58,33 +60,39 @@
             </div>
             <div class="field input-div-container">
               <label for="system">System</label>
-              <input id="system" type="text" size="30" required placeholder="eg.Redmine"/>
+              <input id="system" type="text" size="30" [(ngModel)]="thresholdModal.system" [ngModelOptions]="{standalone: true}"
+                     required placeholder="eg.Redmine"/>
             </div>
             <div class="field input-div-container">
               <label for="catalog">Catalog</label>
-              <input id="catalog" type="text" size="30" required  placeholder="eg.task" />
+              <input id="catalog" type="text" size="30" [(ngModel)]="thresholdModal.catalog" [ngModelOptions]="{standalone: true}"
+                     required  placeholder="eg.task" />
             </div>
             <div class="field input-div-container" >
               <label for="kpi">KPI</label>
-              <input id="kpi" type="text" size="30" required placeholder="eg. Bug Amount"/>
+              <input id="kpi" type="text" size="30" [(ngModel)]="thresholdModal.kpi" [ngModelOptions]="{standalone: true}"
+                     required placeholder="eg. Bug Amount"/>
             </div>
             <div class="field input-div-container" >
               <label for="overcast" >Overcast</label>
-              <input id="overcast" type="text" size="30" required placeholder="overcast" />
+              <input id="overcast" type="text" size="30" [(ngModel)]="thresholdModal.overCast" [ngModelOptions]="{standalone: true}"
+                     required placeholder="overcast" />
             </div>
             <div class="field input-div-container" >
               <label for="rain">Rain</label>
-              <input id="rain" type="text" size="30" required placeholder="rain"/>
+              <input id="rain" type="text" size="30" [(ngModel)]="thresholdModal.rain" [ngModelOptions]="{standalone: true}"
+                     required placeholder="rain"/>
             </div>
             <div class="field input-div-container" >
               <label for="message">Notice Message</label>
-              <input id="message" type="text" size="30" required placeholder="Notice Message"/>
+              <input id="message" type="text" size="30" [(ngModel)]="thresholdModal.noticeMsg" [ngModelOptions]="{standalone: true}"
+                     required placeholder="Notice Message"/>
             </div>
           </form>
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-              <button type="button" pButton class="action-button" icon="fa-close" (click)="display=false" label="Cancel"></button>
-              <button type="button" pButton class="action-button" icon="fa-check" (click)="display=false" label="Save"></button>
+              <button type="button" pButton class="action-button" icon="fa-close" (click)="thresholdModal.display=false" label="Cancel"></button>
+              <button type="button" pButton class="action-button" icon="fa-check" (click)="onKPISubmit()" label="Save"></button>
             </div>
           </p-footer>
         </p-dialog>
@@ -110,11 +118,21 @@
           <p-column  field="no"></p-column>
           <p-column field="projectName"></p-column>
           <p-column field="projectStatus"></p-column>
-          <p-column field="lastUpdateDay"></p-column>
-          <p-column field="endDay"></p-column>
+          <!--Last updated Day-->
+          <p-column>
+            <template let-col let-project="rowData" pTemplate="body">
+              {{project.lastUpdateDay|date:'MM/dd/yyyy'}}
+            </template>
+          </p-column>
+          <!--End Day-->
+          <p-column>
+            <template let-col let-project="rowData" pTemplate="body">
+              {{project.endDay|date:'MM/dd/yyyy'}}
+            </template>
+          </p-column>
           <p-column styleClass="col-button">
             <template let-col let-project="rowData" pTemplate="body">
-                  <button type="button" class="action-button"  (click)="editProject(project.no)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
+                  <button type="button" class="action-button"  (click)="editProject(project)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
             </template>
           </p-column>
         </p-dataTable>
@@ -159,7 +177,7 @@
             <template let-col let-user="rowData" pTemplate="body">
               <div class="ui-g">
                 <div class="ui-g-6">
-                  <button type="button" class="action-button"  (click)="editThreshold(user.no)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
+                  <button type="button" class="action-button"  (click)="editThreshold(user)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
                 </div>
                 <div class="ui-g-6">
                   <button type="button" class="action-button"  (click)="delConfirm(user.no)" pButton icon="fa-trash" label="Delete"></button>

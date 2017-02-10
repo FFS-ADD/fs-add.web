@@ -1,19 +1,19 @@
 export interface ThresholdProfile {
   no: number;
   projectNo: number;
-  project: String;
-  system: String;
-  catalog: String;
-  kpi: String;
-  overcast: String;
-  rain: String;
-  noticeMsg: String;
+  project: string;
+  system: string;
+  catalog: string;
+  kpi: string;
+  overcast: string;
+  rain: string;
+  noticeMsg: string;
 }
 
 export interface ProjectProfile {
   no: number;
   projectName: string;
-  projectStatus: string
-  lastUpdateDay: string
-  endDay: string
+  projectStatus: string;
+  lastUpdateDay: Date;
+  endDay: Date;
 }

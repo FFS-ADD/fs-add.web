@@ -21,20 +21,20 @@ export class InMemoryDataService implements InMemoryDbService {
         "no": 1,
         "projectName": "PJT1",
         "projectStatus": "In Progress",
-        "lastUpdateDay": "2017/02/03",
-        "endDay": "2017/05/01"
+        "lastUpdateDay": new Date('2014-04-03'),
+        "endDay": new Date('2017-05-01')
       },{
         "no": 2,
         "projectName": "PJT2",
         "projectStatus": "Planing",
-        "lastUpdateDay": "2017/03/03",
-        "endDay": "2017/05/01"
+        "lastUpdateDay": new Date('2014-04-03'),
+        "endDay": new Date('2017-05-01')
       }, {
         "no": 3,
         "projectName": "PJT3",
         "projectStatus": "Finish",
-        "lastUpdateDay": "2017/01/03",
-        "endDay": "2017/02/03"
+        "lastUpdateDay": new Date('2014-04-03'),
+        "endDay": new Date('2017-05-01')
     }
     ];
 
