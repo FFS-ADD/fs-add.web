@@ -9,7 +9,9 @@ import {DataTableModule, SharedModule} from 'primeng/primeng';
 import {FileUploadModule} from 'primeng/primeng';
 import {ConfirmDialogModule} from 'primeng/primeng';
 import {DialogModule} from 'primeng/primeng';
-import {ThresholdPipe} from './setting.pipe';
+import {DropdownModule} from 'primeng/primeng';
+import {CalendarModule} from 'primeng/primeng';
+
 
 
 
@@ -22,8 +24,10 @@ import {ThresholdPipe} from './setting.pipe';
     ConfirmDialogModule,
     DialogModule,
     SharedModule,
+    CalendarModule,
+    DropdownModule,
     MaterialModule.forRoot()],
-  declarations: [SettingComponent,ThresholdPipe],
+  declarations: [SettingComponent],
   exports: [SettingComponent],
   providers: [SettingService]
 })

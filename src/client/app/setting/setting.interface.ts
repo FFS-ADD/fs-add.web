@@ -12,8 +12,8 @@ export interface ThresholdProfile {
 
 export interface ProjectProfile {
   no: number;
-  projectName: String;
-  projectStatus: String
-  lastUpdateDay: String
-  endDay: String
+  projectName: string;
+  projectStatus: string
+  lastUpdateDay: string
+  endDay: string
 }

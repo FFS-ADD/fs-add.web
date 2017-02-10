@@ -7,8 +7,11 @@ import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
-import {DialogModule} from 'primeng/primeng';
-import {ThresholdPipe} from './setting.pipe';
+import { ModalInfo } from './setting.class'
+import {forEach} from "@angular/router/src/utils/collection";
+import {SelectItem} from 'primeng/primeng';
+
+
 
 @Component({
   moduleId: module.id,
@@ -22,18 +25,24 @@ export class SettingComponent implements OnInit{
 
   errorDiagnostic: string;
   projectsInfo:  ProjectProfile[];
-  selectedProject:Object;
+  selectedProject: Object;
   thresholdInfo: ThresholdProfile[];
   thresholdShow:ThresholdProfile[];
   uploadMessage: string;
   isUploading: boolean;
-  display: boolean;
+  thresholdModal: ModalInfo;
+  projectModal: ModalInfo;
+  projectList: SelectItem[];
+  date1:Date;
 
   constructor(private setingService: SettingService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
-    this.display=false;
+    this.thresholdModal =  { title: "", display: false };
+    this.projectModal = { title: "", display: false };
+    this.projectList = [];
+
   }
 
   ngOnInit() {
@@ -57,23 +66,23 @@ export class SettingComponent implements OnInit{
     this.thresholdShow = this.thresholdInfo;
   }
 
-  addProject(event:any) {
-    this.display = true;
+  addProject() {
+    this.projectModal = { title: "Add New Project", display: true };
   }
 
-  addThreshold(event:any) {
-    this.display = true;
+  addThreshold() {
+    this.thresholdModal =  { title: "Add New Threshold", display: true };
   }
 
   editProject(no: number) {
-    this.display = true;
+    this.projectModal = { title: "Edit Project", display: true };
   }
 
   editThreshold(no: number) {
-    this.display = true;
+    this.thresholdModal =  { title: "Edit Threshold", display: true };
   }
 
-  onPrjectSelect(event: any ) {
+  onProjectSelect(event: any ) {
     this.thresholdShow = this.thresholdInfo.filter( (threshold) => {
       if (event.data.projectName === "all") {
         return true;
@@ -87,7 +96,11 @@ export class SettingComponent implements OnInit{
   getProjectInfo() {
     this.setingService.getProjectsInfo()
       .subscribe(
-        projectsInfo => this.projectsInfo = projectsInfo,
+        projectsInfo => {
+          this.projectsInfo = projectsInfo ;
+          this.projectsInfo.forEach((info) =>{
+            this.projectList.push({"label": info.projectName, "value": info.projectName});
+          })} ,
         error =>  this.errorDiagnostic = <any>error);
   }
 

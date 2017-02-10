@@ -57,6 +57,17 @@ md-card {
   text-align: right;
 }
 
+.form-project {
+  height: 370px;
+  text-align: right;
+}
+
+.calendar-input-1 {
+  width: 235px;
+  height: 30px;
+}
+
+
 .input-div-container{
   padding-bottom: 3px;
   padding-right: 50px

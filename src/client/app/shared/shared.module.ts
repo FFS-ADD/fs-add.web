@@ -9,7 +9,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { NameListService } from './name-list/name-list.service';
 import { UserService } from './user/user.service';
-import { ProjectPipe } from '../setting/project.pipe';
+
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -17,7 +17,7 @@ import { ProjectPipe } from '../setting/project.pipe';
 
 @NgModule({
   imports: [CommonModule, RouterModule, InMemoryWebApiModule.forRoot(InMemoryDataService, {delay: 500})],
-  declarations: [ToolbarComponent, FooterComponent,ProjectPipe],
+  declarations: [ToolbarComponent, FooterComponent],
   exports: [ToolbarComponent,FooterComponent,
     CommonModule, FormsModule, RouterModule]
 })
