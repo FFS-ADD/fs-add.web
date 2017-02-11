@@ -21,19 +21,19 @@ export class InMemoryDataService implements InMemoryDbService {
         "no": 1,
         "projectName": "PJT1",
         "projectStatus": "In Progress",
-        "lastUpdateDay": new Date('2014-04-03'),
+        "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       },{
         "no": 2,
         "projectName": "PJT2",
         "projectStatus": "Planing",
-        "lastUpdateDay": new Date('2014-04-03'),
+        "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       }, {
         "no": 3,
         "projectName": "PJT3",
         "projectStatus": "Finish",
-        "lastUpdateDay": new Date('2014-04-03'),
+        "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
     }
     ];
@@ -46,7 +46,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "Redmine",
         "catalog": "bug",
         "kpi": "bug Amount",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please bug"
       },{
@@ -56,7 +56,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "Redmine",
         "catalog": "task",
         "kpi": "task Amount",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please task"
       }, {
@@ -66,7 +66,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "Redmine",
         "catalog": "QA",
         "kpi": "QA Amount",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please QA"
       }, {
@@ -76,7 +76,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "SonarQube",
         "catalog": "Quality",
         "kpi": "Quality Threshold",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
@@ -86,7 +86,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "SonarQube",
         "catalog": "Quality",
         "kpi": "Quality Threshold",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
@@ -96,11 +96,16 @@ export class InMemoryDataService implements InMemoryDbService {
         "system": "SonarQube",
         "catalog": "Quality",
         "kpi": "Quality Threshold",
-        "overcast": "0.8",
+        "overCast": "0.8",
         "rain": "1",
         "noticeMsg":"Please Quality"
       }
     ];
-    return {userlist, settingKpi, projectsInfo, thresholdInfo};
+
+    let saveProject = {
+      'result': 1
+    };
+
+    return {userlist, settingKpi, projectsInfo, thresholdInfo, saveProject};
   }
 }

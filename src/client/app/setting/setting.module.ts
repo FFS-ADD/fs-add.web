@@ -11,6 +11,7 @@ import {ConfirmDialogModule} from 'primeng/primeng';
 import {DialogModule} from 'primeng/primeng';
 import {DropdownModule} from 'primeng/primeng';
 import {CalendarModule} from 'primeng/primeng';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -22,6 +23,8 @@ import {CalendarModule} from 'primeng/primeng';
     DataTableModule,
     FileUploadModule,
     ConfirmDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
     DialogModule,
     SharedModule,
     CalendarModule,

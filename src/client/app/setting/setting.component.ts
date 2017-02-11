@@ -10,7 +10,7 @@ import { ConfirmationService} from 'primeng/primeng';
 import { ProjectModalInfo,KpiModalInfo } from './setting.class'
 import {forEach} from "@angular/router/src/utils/collection";
 import {SelectItem} from 'primeng/primeng';
-
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -34,21 +34,25 @@ export class SettingComponent implements OnInit{
   projectModal: ProjectModalInfo;
   projectList: SelectItem[];
   selectedAddProject: string;
+  projectForm: FormGroup;
+  thresholdForm: FormGroup;
 
-  constructor(private setingService: SettingService, private http:
-    Http, private _router: Router, private confirmationService: ConfirmationService) {
+  constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
+              private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
     this.selectedAddProject="";
     this.projectModal = {
+      no: -1,
       title: "",
       display: false,
       projectName: "",
       projectStatus: "",
-      updateDate: new Date(),
-      endDate: new Date()
+      updateDay: new Date(),
+      endDay: new Date()
     };
     this.thresholdModal =  {
+      no: -1,
       title: "",
       display: false,
       system: "",
@@ -65,6 +69,15 @@ export class SettingComponent implements OnInit{
   ngOnInit() {
     this.getProjectInfo();
     this.getThresholdInfo();
+    // this.projectForm = this.fb.group({
+    //   'username': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
+    //   'password': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)]]
+    // });
+    //
+    // this.thresholdForm = this.fb.group({
+    //   'username': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
+    //   'password': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)]]
+    // });
   }
 
   delConfirm(event: any) {
@@ -73,7 +86,19 @@ export class SettingComponent implements OnInit{
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
-
+        for (var i = 0; i < this.thresholdInfo.length; i++) {
+          if(this.thresholdInfo[i].no == event) {
+            this.thresholdInfo.splice(i,1);
+            break;
+          }
+        }
+        // this.setingService.deleteThresholdItem(event)
+        //   .subscribe(
+        //     projectsInfo => {
+        //       //Save success or not
+        //     } ,
+        //     error =>  this.errorDiagnostic = <any>error
+        //   )
       }
     });
   }
@@ -85,17 +110,19 @@ export class SettingComponent implements OnInit{
 
   addProject() {
     this.projectModal = {
+      no: -1,
       title: "Add New Project",
       display: true,
       projectName: "",
       projectStatus: "",
-      updateDate: new Date(),
-      endDate: new Date()
+      updateDay: new Date(),
+      endDay: new Date()
     };
   }
 
   addThreshold() {
     this.thresholdModal =  {
+      no: -1,
       title: "Add New Threshold",
       display: true,
       system: "",
@@ -111,10 +138,11 @@ export class SettingComponent implements OnInit{
     this.projectModal = {
       title: "Edit Project",
       display: true,
+      no: project.no,
       projectName: project.projectName,
       projectStatus: project.projectStatus,
-      updateDate: new Date(project.lastUpdateDay),
-      endDate:  new Date(project.endDay)
+      updateDay: new Date(project.updateDay),
+      endDay:  new Date(project.endDay)
     };
   }
 
@@ -122,10 +150,11 @@ export class SettingComponent implements OnInit{
     this.thresholdModal =  {
       title: "Edit Threshold",
       display: true,
+      no: threshold.no,
       system: threshold.system,
       catalog: threshold.catalog,
       kpi: threshold.kpi,
-      overCast:threshold.overcast,
+      overCast:threshold.overCast,
       rain:threshold.rain,
       noticeMsg: threshold.noticeMsg
     };
@@ -140,6 +169,73 @@ export class SettingComponent implements OnInit{
         return threshold.project === event.data.projectName;
       }
     });
+
+  }
+
+  onProjectSubmit(projectInfo:ProjectModalInfo) {
+
+    let submitForm = {
+      no: projectInfo.no,
+      projectName: projectInfo.projectName,
+      projectStatus: projectInfo.projectStatus,
+      updateDay: new Date(projectInfo.updateDay),
+      endDay: new Date(projectInfo.endDay)
+    };
+
+    if( projectInfo.no == -1) {     // For new add
+      submitForm.no = this.projectsInfo.length + 1;
+      this.projectsInfo.push(submitForm);
+    } else { // For edit
+      for (var i = 0; i < this.projectsInfo.length; i++) {
+        if(this.projectsInfo[i].no == projectInfo.no) {
+          this.projectsInfo[i] = submitForm;
+          break;
+        }
+      }
+    }
+    this.projectModal.display = false;
+    // this.setingService.saveProjectInfo(submitForm)
+    //   .subscribe(
+    //     projectsInfo => {
+    //       //Save success or not
+    //     } ,
+    //     error =>  this.errorDiagnostic = <any>error
+    //   )
+
+  }
+
+  onKPISubmit(kpiInfo:KpiModalInfo) {
+
+    let submitForm = {
+      no: kpiInfo.no,
+      system: kpiInfo.system,
+      project: this.selectedAddProject,
+      catalog: kpiInfo.catalog,
+      kpi: kpiInfo.kpi,
+      overCast:kpiInfo.overCast,
+      rain: kpiInfo.rain,
+      noticeMsg: kpiInfo.noticeMsg
+    };
+
+    if( kpiInfo.no == -1) {     // For new add
+      submitForm.no = this.thresholdInfo.length + 1;
+      this.thresholdInfo.push(submitForm);
+    } else { // For edit
+      for (var i = 0; i < this.thresholdInfo.length; i++) {
+        if(this.thresholdInfo[i].no == kpiInfo.no) {
+          this.thresholdInfo[i] = submitForm;
+          break;
+        }
+      }
+    }
+    this.thresholdModal.display = false;
+    // this.setingService.saveThresholdInfo(submitForm)
+    //   .subscribe(
+    //     projectsInfo => {
+    //          //Save success or not
+    //     } ,
+    //     error =>  this.errorDiagnostic = <any>error
+    //   )
 
   }
 

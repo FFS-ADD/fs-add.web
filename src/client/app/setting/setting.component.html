@@ -19,6 +19,7 @@
 
         <p-dialog header="{{projectModal.title}}" width=500 height=510 modal=true [(visible)]="projectModal.display">
           <form  class="form-project">
+                 <!--[formGroup]="projectForm" -->
             <div class="field input-div-container">
               <label for="projectName">ProjectName</label>
               <input id="projectName" type="text" size="30"  [ngModelOptions]="{standalone: true}"
@@ -31,13 +32,13 @@
             </div>
             <div class="field input-div-container" >
               <label>Last Updated Day</label>
-              <p-calendar [(ngModel)]="projectModal.updateDate" [inputStyle]="{'width':'235px','height': '30px'}"
+              <p-calendar [(ngModel)]="projectModal.updateDay" [inputStyle]="{'width':'235px','height': '30px'}"
                           [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
             <div class="field input-div-container" >
               <label>End Day</label>
-              <p-calendar [(ngModel)]="projectModal.endDate" [inputStyle]="{'width':'235px','height': '30px'}"
+              <p-calendar [(ngModel)]="projectModal.endDay" [inputStyle]="{'width':'235px','height': '30px'}"
                           [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
             </div>
@@ -45,7 +46,7 @@
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
               <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
-              <button type="button" pButton class="action-button" icon="fa-check" (click)="onProjectSubmit()" label="Save"></button>
+              <button type="submit" pButton class="action-button" icon="fa-check" (click)="onProjectSubmit(projectModal)" label="Save"></button>
             </div>
           </p-footer>
         </p-dialog>
@@ -53,6 +54,7 @@
 
         <p-dialog header="{{thresholdModal.title}}" modal=true [(visible)]="thresholdModal.display">
           <form  class="form-threshold">
+                 <!--[formGroup]="thresholdForm"  (ngSubmit)="onKPISubmit(thresholdModal)" -->
             <div class="field input-div-container">
               <label style="text-align: left">Project</label>
               <p-dropdown [options]="projectList" required [(ngModel)]="selectedAddProject"
@@ -92,7 +94,7 @@
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
               <button type="button" pButton class="action-button" icon="fa-close" (click)="thresholdModal.display=false" label="Cancel"></button>
-              <button type="button" pButton class="action-button" icon="fa-check" (click)="onKPISubmit()" label="Save"></button>
+              <button type="submit" pButton class="action-button" icon="fa-check" (click)="onKPISubmit(thresholdModal)" label="Save"></button>
             </div>
           </p-footer>
         </p-dialog>
@@ -121,7 +123,7 @@
           <!--Last updated Day-->
           <p-column>
             <template let-col let-project="rowData" pTemplate="body">
-              {{project.lastUpdateDay|date:'MM/dd/yyyy'}}
+              {{project.updateDay|date:'MM/dd/yyyy'}}
             </template>
           </p-column>
           <!--End Day-->
@@ -168,9 +170,9 @@
           <p-column  field="no"></p-column>
           <p-column field="project"></p-column>
           <p-column field="system"></p-column>
-          <p-column field="catalog"></p-column>
+          <p-column field="catalog"></p-column>C
           <p-column field="kpi"></p-column>
-          <p-column field="overcast"></p-column>
+          <p-column field="overCast"></p-column>
           <p-column field="rain"></p-column>
           <p-column field="noticeMsg"></p-column>
           <p-column styleClass="col-button">
