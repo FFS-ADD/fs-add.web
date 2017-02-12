@@ -7,6 +7,7 @@ import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
+import {ManagementService} from "./mangement.service";
 
 @Component({
   moduleId: module.id,
@@ -22,15 +23,17 @@ export class ManagementComponent implements OnInit{
   users:  userProfile[];
   uploadMessage: string;
   isUploading: boolean;
+  selectedUser:any;
 
-  constructor(private _userService: UserService, private http:
+  constructor(private managementService: ManagementService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
+    this.selectedUser ={}
   }
 
   ngOnInit() {
-    this.getUsers();
+    this.getUsersList();
   }
 
   confirmPopup(event: any) {
@@ -39,11 +42,20 @@ export class ManagementComponent implements OnInit{
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
-
+        for (var i = 0; i < this.users.length; i++) {
+          if(this.users[i].no == event) {
+            this.users.splice(i,1);
+            break;
+          }
+        }
       }
     });
   }
 
+  UnSelectedClick(event:any) {
+    this.selectedUser ={};
+    //TODO clear Form information
+  }
 
   fileChangeEvent(event:any) {
     let fileList: FileList = event.target.files;
@@ -51,7 +63,7 @@ export class ManagementComponent implements OnInit{
       let file: File = fileList[0];
       this.uploadMessage="uploading..."
       this.isUploading = true;
-      this._userService.uploadAvatarPicture(file).subscribe(data => {
+      this.managementService.uploadAvatarPicture(file).subscribe(data => {
           this.uploadMessage= "upload new picture";
           this.isUploading = false;
           this._router.navigate(['/']);
@@ -66,47 +78,11 @@ export class ManagementComponent implements OnInit{
     }
   }
 
-  getUsers() {
-    // this.errorDiagnostic = null;
-    // this._userService.getUsers().subscribe(res => {
-    //     this.users = res;
-    // },
-    // error => {
-    //   let objectSource: any = USER_STATUS_CODES;
-    //   this.errorDiagnostic = objectSource[error.status] || objectSource[500];
-    //   this._router.navigate(['/']);
-    // });
-    this.users = [
-        {
-        "no": 1,
-        "project": "PJ1",
-        "avatar": "assets/img/background.jpg",
-        "email": "wei.zhang@accenture.com",
-        "fristName": "Wei",
-        "lastName": "zhang"
-        },{
-        "no": 2,
-        "project": "PJ2",
-        "avatar": "assets/img/dashboard.png",
-        "email": "changsheng.liu@accenture.com",
-        "fristName": "changsheng",
-        "lastName": "liu"
-        }, {
-        "no": 3,
-        "project": "PJ1",
-        "avatar": "assets/img/dashboard.png",
-        "email": "xiaodong.deng@accenture.com",
-        "fristName": "xiaodong",
-        "lastName": "deng"
-      }, {
-        "no": 4,
-        "project": "PJ3",
-        "avatar": "assets/img/dashboard.png",
-        "email": "baofeng.wu@accenture.com",
-        "fristName": "baofeng",
-        "lastName": "wu"
-      }
-    ];
+  getUsersList() {
+    this.managementService.getUserListInfo()
+      .subscribe(
+        userInfo => this.users = userInfo,
+        error =>  this.errorDiagnostic = <any>error);
   }
 
 }

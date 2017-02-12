@@ -9,11 +9,17 @@
 
       <md-card-content>
 
-        <p-confirmDialog width="425"></p-confirmDialog>
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" #cd>
+          <p-footer>
+            <button type="button" class="action-button" pButton icon="fa-close" label="No" (click)="cd.reject()"></button>
+            <button type="button" class="action-button" pButton icon="fa-check" label="Yes" (click)="cd.accept()"></button>
+          </p-footer>
+        </p-confirmDialog>
 
         <div class="ui-widget-header div-threshold">
           <i class="fa fa-search"></i>
           <input #gb type="text" pInputText size="30" placeholder="Global Filter">
+          <button type="button" class="add-new-button" (click)="UnSelectedClick()" pButton icon="fa-refresh" label="UnSelect"></button>
         </div>
         <p-dataTable [value]="users" [rows]="3" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedUser">
           <p-headerColumnGroup>
@@ -21,6 +27,7 @@
               <p-column header="" [style]="{width:'30px'}"></p-column>
               <p-column header="No" [style]="{width:'40px'}"></p-column>
               <p-column header="Project"></p-column>
+              <p-column header="Role"></p-column>
               <p-column header="Avatar"></p-column>
               <p-column header="Mmail"></p-column>
               <p-column header="FristName"></p-column>
@@ -31,6 +38,7 @@
           <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
           <p-column  field="no"></p-column>
           <p-column field="project"></p-column>
+          <p-column field="role"></p-column>
           <p-column field="avatar">
             <template let-col let-user="rowData" pTemplate="body">
               <img style="width: 35px;" src="{{user[col.field]}}">
@@ -83,7 +91,7 @@
                 </div>
               </form>
               <div class="ui-g-4">
-                <button type="button" class="footer-button"  [disabled]="false" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
+                <button type="button" class="footer-button"  [disabled]="true" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
               </div>
               <div class="ui-g-4">
                 <button type="button" class="footer-button" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>

@@ -9,6 +9,7 @@ import { UserService } from '../shared/user/user.service';
 import {DataTableModule, SharedModule} from 'primeng/primeng';
 import {FileUploadModule} from 'primeng/primeng';
 import {ConfirmDialogModule} from 'primeng/primeng';
+import {ManagementService} from "./mangement.service";
 
 
 @NgModule({
@@ -22,8 +23,7 @@ import {ConfirmDialogModule} from 'primeng/primeng';
     MaterialModule.forRoot()],
   declarations: [ManagementComponent],
   exports: [ManagementComponent],
-  providers: [NameListService,
-    UserService
+  providers: [ManagementService
    ]
 })
 export class ManagementModule { }

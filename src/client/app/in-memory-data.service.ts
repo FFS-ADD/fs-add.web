@@ -3,10 +3,39 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let userlist = [
-      { id: 1, name: 'Windstorm' },
-      { id: 2, name: 'Bombasto' },
-      { id: 3, name: 'Magneta' },
-      { id: 4, name: 'Tornado' }
+      {
+        "no": 1,
+        "project": "PJ1",
+        "role": "Member",
+        "avatar": "assets/img/background.jpg",
+        "email": "wei.zhang@accenture.com",
+        "fristName": "Wei",
+        "lastName": "zhang"
+      },{
+        "no": 2,
+        "project": "PJ2",
+        "role": "Owner",
+        "avatar": "assets/img/dashboard.png",
+        "email": "changsheng.liu@accenture.com",
+        "fristName": "changsheng",
+        "lastName": "liu"
+      }, {
+        "no": 3,
+        "project": "PJ1",
+        "role": "Owner",
+        "avatar": "assets/img/dashboard.png",
+        "email": "xiaodong.deng@accenture.com",
+        "fristName": "xiaodong",
+        "lastName": "deng"
+      }, {
+        "no": 4,
+        "project": "PJ3",
+        "role": "Member",
+        "avatar": "assets/img/dashboard.png",
+        "email": "baofeng.wu@accenture.com",
+        "fristName": "baofeng",
+        "lastName": "wu"
+      }
     ];
 
     let settingKpi = [

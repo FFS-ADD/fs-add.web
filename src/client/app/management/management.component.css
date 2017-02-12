@@ -79,7 +79,7 @@ md-card {
 }
 .div-threshold {
   height: 40px;
-  padding:4px 10px;
+  padding:4px 3px 4px 10px;
   border-top: 0 none;
   border-bottom: 0 none;
   text-align: left
@@ -113,6 +113,16 @@ md-card {
   height: 30px
 }
 
+.action-button {
+  font-size: 12px;
+  height: 25px;
+}
+
+.add-new-button {
+  font-size: 14px;
+  height: 30px;
+  float: right;
+}
 .action-button {
   font-size: 12px;
   height: 25px;

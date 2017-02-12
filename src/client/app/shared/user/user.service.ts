@@ -12,7 +12,7 @@ export class UserService {
   // private _loginApi = this._apiBase + '/login/authorize';
   private _loginApi = 'api/users';
   private _logoutApi = this._apiBase + '/logout';
-  private _uploadImageApi = 'api/uploadImage';
+
 
   private userlistURL = 'app/userlist';
   private projectSettingURL = 'app/projectSettings'
@@ -50,19 +50,6 @@ export class UserService {
       .map(this.extractData)
       .catch(this.handleError);
 
-  }
-
-  uploadAvatarPicture(file:File) {
-
-    let formData:FormData = new FormData();
-    formData.append('uploadFile', file, file.name);
-    let headers = new Headers();
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this._uploadImageApi, formData, options)
-      .map((res: Response) => res)
-      .catch(this.handleError);
   }
 
   getMe() {
