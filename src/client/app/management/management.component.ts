@@ -1,7 +1,7 @@
 import { Inject } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import 'rxjs/add/observable/interval';
-import {userProfile} from '../shared/user/user-profile'
+import {User} from '../shared/user/user'
 import { UserService } from '../shared/user/user.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
@@ -20,40 +20,39 @@ import {ManagementService} from "./mangement.service";
 export class ManagementComponent implements OnInit{
 
   errorDiagnostic: string;
-  users:  userProfile[];
+  users:  User[];
   uploadMessage: string;
   isUploading: boolean;
-  selectedUser:any;
+  selectedUser:User;
+  user: User;
+  roles = ['Owner', 'Member'];
+  submitted = false;
 
   constructor(private managementService: ManagementService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
-    this.selectedUser ={}
+    this.selectedUser = new User(0,"","","","","","","");
+    this.user = new User(0,"","","","","","","");
   }
 
   ngOnInit() {
     this.getUsersList();
   }
 
-  confirmPopup(event: any) {
+  confirmPopup(user: User) {
     this.confirmationService.confirm({
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
-        for (var i = 0; i < this.users.length; i++) {
-          if(this.users[i].no == event) {
-            this.users.splice(i,1);
-            break;
-          }
-        }
+        this.delete(user);
       }
     });
   }
 
   UnSelectedClick(event:any) {
-    this.selectedUser ={};
+    this.selectedUser = null;
     //TODO clear Form information
   }
 
@@ -85,4 +84,20 @@ export class ManagementComponent implements OnInit{
         error =>  this.errorDiagnostic = <any>error);
   }
 
+  addNewUser(user: User): void {
+    if (!user) { return; }
+    this.managementService.createUser(user)
+      .then((user:User) => {
+        this.users.push(user);
+        this.selectedUser = null;
+      });
+  }
+  delete(user: User): void {
+    this.managementService
+      .deleteUser(user.id)
+      .then(() => {
+        this.users = this.users.filter(h => h !== user);
+        if (this.selectedUser === user) { this.selectedUser = null; }
+      });
+  }
 }

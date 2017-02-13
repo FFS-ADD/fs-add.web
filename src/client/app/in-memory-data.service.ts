@@ -4,7 +4,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let userlist = [
       {
-        "no": 1,
+        "id": 1,
         "project": "PJ1",
         "role": "Member",
         "avatar": "assets/img/background.jpg",
@@ -12,7 +12,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "fristName": "Wei",
         "lastName": "zhang"
       },{
-        "no": 2,
+        "id": 2,
         "project": "PJ2",
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
@@ -20,7 +20,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "fristName": "changsheng",
         "lastName": "liu"
       }, {
-        "no": 3,
+        "id": 3,
         "project": "PJ1",
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
@@ -28,7 +28,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "fristName": "xiaodong",
         "lastName": "deng"
       }, {
-        "no": 4,
+        "id": 4,
         "project": "PJ3",
         "role": "Member",
         "avatar": "assets/img/dashboard.png",
@@ -36,13 +36,6 @@ export class InMemoryDataService implements InMemoryDbService {
         "fristName": "baofeng",
         "lastName": "wu"
       }
-    ];
-
-    let settingKpi = [
-      { id: 1, name: 'Windstorm' },
-      { id: 2, name: 'Bombasto' },
-      { id: 3, name: 'Magneta' },
-      { id: 4, name: 'Tornado' }
     ];
 
     let projectsInfo = [
@@ -131,10 +124,6 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    let saveProject = {
-      'result': 1
-    };
-
-    return {userlist, settingKpi, projectsInfo, thresholdInfo, saveProject};
+    return {userlist, projectsInfo, thresholdInfo};
   }
 }

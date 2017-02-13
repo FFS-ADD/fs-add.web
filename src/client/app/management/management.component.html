@@ -49,7 +49,7 @@
           <p-column field="lastName"></p-column>
           <p-column styleClass="col-button">
             <template let-col let-user="rowData" pTemplate="body">
-              <button type="button" class="action-button" (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
+              <button type="button" class="action-button" (click)="confirmPopup(user)" pButton icon="fa-trash" label="Delete"></button>
             </template>
           </p-column>
         </p-dataTable>
@@ -68,36 +68,39 @@
               <p class="error" *ngIf="errorDiagnostic">{{errorDiagnostic}}</p>
             </div>
             <div class="ui-g-6">
-              <form (ngSubmit)="onSubmit()" class="form-threshold">
+              <form class="form-threshold" *ngIf="!submitted" (ngSubmit)="submitForm()"  #userForm="ngForm">
+                <div class="field input-div-container">
+                  <label for="role">Role</label>
+                  <select id="role" required>
+                    <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+                  </select>
+                </div>
                 <div class="field input-div-container">
                   <label for="project" >Project</label>
-                  <input id="project" type="text" size="30" placeholder="Global Filter"/>
+                  <input id="project" name="project" type="text" size="30" [(ngModel)]="user.project" placeholder="Project"/>
                 </div>
                 <div class="field input-div-container">
                   <label for="email" >Email</label>
-                  <input id="email" type="text" size="30" required placeholder="Global Filter" />
+                  <input id="email" name="email" type="text" size="30" [(ngModel)]="user.email" required placeholder="Email" />
                 </div>
                 <div class="field input-div-container">
                   <label for="password" >Password</label>
-                  <input id="password" type="text" size="30"  placeholder="Global Filter"/>
+                  <input id="password" name="password" type="text" size="30" [(ngModel)]="user.password" required placeholder="Password"/>
                 </div>
                 <div class="field input-div-container">
                   <label for="firstName" >FirstName</label>
-                  <input id="firstName" type="text" size="30"   placeholder="Global Filter" />
+                  <input id="firstName" name="firstName" type="text" size="30" [(ngModel)]="user.firstName" required placeholder="FirstName" />
                 </div>
                 <div class="field input-div-container">
                   <label for="lastName" >LastName</label>
-                  <input id="lastName" type="text" size="30"  placeholder="Global Filter"/>
+                  <input id="lastName"  name="lastName" type="text" size="30" [(ngModel)]="user.lastName" placeholder="LastName"/>
                 </div>
               </form>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button"  [disabled]="true" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
+              <div class="ui-g-6">
+                <button type="button" class="footer-button"  (click)="addNew()" pButton icon="fa-check" label="Add"></button>
               </div>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
-              </div>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button" (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
+              <div class="ui-g-6">
+                <button type="submit" class="footer-button"  pButton icon="fa-pencil-square-o" label="Submit"></button>
               </div>
             </div>
           </div>
