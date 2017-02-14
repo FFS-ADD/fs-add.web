@@ -8,6 +8,7 @@ import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@an
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
 import {ManagementService} from "./mangement.service";
+import {SelectItem} from 'primeng/primeng';
 
 @Component({
   moduleId: module.id,
@@ -22,18 +23,26 @@ export class ManagementComponent implements OnInit{
   errorDiagnostic: string;
   users:  User[];
   uploadMessage: string;
-  isUploading: boolean;
   selectedUser:User;
+  rolesList: SelectItem[];
   user: User;
-  roles = ['Owner', 'Member'];
   submitted = false;
+  defaultAvatar: string;
+  isUploading: boolean;
+  isNewUser: boolean;
 
   constructor(private managementService: ManagementService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
-    this.selectedUser = new User(0,"","","","","","","");
+    this.selectedUser = null;
     this.user = new User(0,"","","","","","","");
+    this.isNewUser = true;
+    this.rolesList = [
+      {"label": "Owner", "value": "Owner"},
+      {"label": "Member", "value": "Member"},
+    ];
+    this.defaultAvatar = "assets/img/defaultAvatar.jpg"
   }
 
   ngOnInit() {
@@ -51,8 +60,23 @@ export class ManagementComponent implements OnInit{
     });
   }
 
+  onUserSelect(event: any) {
+    this.user = new User(
+      event.data.id,
+      event.data.role,
+      event.data.project,
+      event.data.avatar,
+      event.data.email,
+      event.data.password,
+      event.data.firstName,
+      event.data.lastName,
+    );
+    this.isNewUser = false;
+  }
+
   UnSelectedClick(event:any) {
     this.selectedUser = null;
+    this.isNewUser = true;
     //TODO clear Form information
   }
 
@@ -84,14 +108,32 @@ export class ManagementComponent implements OnInit{
         error =>  this.errorDiagnostic = <any>error);
   }
 
-  addNewUser(user: User): void {
-    if (!user) { return; }
-    this.managementService.createUser(user)
-      .then((user:User) => {
-        this.users.push(user);
-        this.selectedUser = null;
-      });
+
+  addNewUser(): void {
+    this.isNewUser = true;
+    this.selectedUser = null;
+    this.user = new User(0,"","","","","","","");
   }
+
+  submitForm(user: User) {
+    if (!user) { return; }
+
+    if (this.isNewUser) {
+      this.managementService.createUser(user)
+        .then((user:User) => {
+          this.users.push(user);
+        });
+    } else {
+      this.managementService.updateUser(user)
+        .then((user:User) => {
+          this.getUsersList();
+        });
+    }
+    this.user = new User(0,"","","","","","","");
+    this.selectedUser = null;
+    this.isNewUser = true;
+  }
+
   delete(user: User): void {
     this.managementService
       .deleteUser(user.id)

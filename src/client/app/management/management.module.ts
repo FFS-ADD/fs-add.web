@@ -10,7 +10,9 @@ import {DataTableModule, SharedModule} from 'primeng/primeng';
 import {FileUploadModule} from 'primeng/primeng';
 import {ConfirmDialogModule} from 'primeng/primeng';
 import {ManagementService} from "./mangement.service";
-
+import {DropdownModule} from 'primeng/primeng';
+import {PasswordModule} from 'primeng/primeng';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [CommonModule,
@@ -19,6 +21,9 @@ import {ManagementService} from "./mangement.service";
     DataTableModule,
     FileUploadModule,
     ConfirmDialogModule,
+    FormsModule,
+    PasswordModule,
+    DropdownModule,
     SharedModule,
     MaterialModule.forRoot()],
   declarations: [ManagementComponent],

@@ -106,6 +106,7 @@ md-card {
 }
 .input-div-container input {
   height: 30px;
+  width: 235px;
 }
 
 .footer-button {

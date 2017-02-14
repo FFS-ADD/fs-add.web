@@ -9,7 +9,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "role": "Member",
         "avatar": "assets/img/background.jpg",
         "email": "wei.zhang@accenture.com",
-        "fristName": "Wei",
+        "firstName": "Wei",
         "lastName": "zhang"
       },{
         "id": 2,
@@ -17,7 +17,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
         "email": "changsheng.liu@accenture.com",
-        "fristName": "changsheng",
+        "firstName": "changsheng",
         "lastName": "liu"
       }, {
         "id": 3,
@@ -25,7 +25,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
         "email": "xiaodong.deng@accenture.com",
-        "fristName": "xiaodong",
+        "firstName": "xiaodong",
         "lastName": "deng"
       }, {
         "id": 4,
@@ -33,7 +33,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "role": "Member",
         "avatar": "assets/img/dashboard.png",
         "email": "baofeng.wu@accenture.com",
-        "fristName": "baofeng",
+        "firstName": "baofeng",
         "lastName": "wu"
       }
     ];
