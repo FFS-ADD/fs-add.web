@@ -38,21 +38,21 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    let projectsInfo = [
+    let projectList = [
       {
-        "no": 1,
+        "id": 1,
         "projectName": "PJT1",
         "projectStatus": "In Progress",
         "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       },{
-        "no": 2,
+        "id": 2,
         "projectName": "PJT2",
         "projectStatus": "Planing",
         "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       }, {
-        "no": 3,
+        "id": 3,
         "projectName": "PJT3",
         "projectStatus": "Finish",
         "updateDay": new Date('2014-04-03'),
@@ -60,9 +60,9 @@ export class InMemoryDataService implements InMemoryDbService {
     }
     ];
 
-    let thresholdInfo = [
+    let thresholdList = [
       {
-        "no": 1,
+        "id": 1,
         "projectNo": 1,
         "project": "PJT1",
         "system": "Redmine",
@@ -72,7 +72,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please bug"
       },{
-        "no": 2,
+        "id": 2,
         "projectNo": 2,
         "project": "PJT2",
         "system": "Redmine",
@@ -82,7 +82,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please task"
       }, {
-        "no": 3,
+        "id": 3,
         "projectNo": 1,
         "project": "PJT1",
         "system": "Redmine",
@@ -92,7 +92,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please QA"
       }, {
-        "no": 4,
+        "id": 4,
         "projectNo": 1,
         "project": "PJT1",
         "system": "SonarQube",
@@ -102,7 +102,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
-        "no": 5,
+        "id": 5,
         "projectNo": 2,
         "project": "PJT2",
         "system": "SonarQube",
@@ -112,7 +112,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
-        "no": 6,
+        "id": 6,
         "projectNo": 3,
         "project": "PJT3",
         "system": "SonarQube",
@@ -124,6 +124,6 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    return {userlist, projectsInfo, thresholdInfo};
+    return {userlist, projectList, thresholdList};
   }
 }

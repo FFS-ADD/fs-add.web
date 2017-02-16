@@ -9,11 +9,10 @@ export class SettingService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
   }
 
-  private projectsInfoURL = 'app/projectsInfo';
-  private thresholdInfoURL = 'app/thresholdInfo';
-  private saveProjectsInfoURL = 'app/saveProject';
-  private saveThresholdInfoURL = 'app/saveThreshold';
-  private deleteThresholdBaseURL = 'app/removeThreshold/';
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private projectsInfoURL = 'app/projectList';
+  private thresholdInfoURL = 'app/thresholdList';
+
 
   private extractData(res: Response) {
     let body = res.json();
@@ -45,6 +44,30 @@ export class SettingService {
       .catch(this.handleError);
   }
 
+  deleteThresholdItem(id: number){
+    const url = `${this.thresholdInfoURL}/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .map(() => null)
+      .catch(this.handleError);
+  }
+  createUser(user: User): Promise<User> {
+    return this.http
+      .post(this.userListURL, JSON.stringify(user), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json().data)
+      .catch(this.handleError);
+  }
+  updateUser(user: User): Promise<User> {
+    const url = `${this.userListURL}/${user.id}`;
+    return this.http
+      .put(url, JSON.stringify(user), {headers: this.headers})
+      .toPromise()
+      .then(() => user)
+      .catch(this.handleError);
+  }
+
+
+
   saveProjectInfo(projectFrom: ProjectProfile) {
     let body = JSON.stringify(projectFrom);
 
@@ -63,11 +86,5 @@ export class SettingService {
       .catch(this.handleError);
   }
 
-  deleteThresholdItem(no: number) {
-    let deletURL = this.deleteThresholdBaseURL + '/'+ no;
-    return this.http.delete(deletURL)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
 }
 

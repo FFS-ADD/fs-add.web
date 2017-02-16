@@ -1,5 +1,5 @@
-export interface ThresholdProfile {
-  no: number;
+export interface Threshold {
+  id: number;
   project: string;
   system: string;
   catalog: string;
@@ -9,8 +9,8 @@ export interface ThresholdProfile {
   noticeMsg: string;
 }
 
-export interface ProjectProfile {
-  no: number;
+export interface Project {
+  id: number;
   projectName: string;
   projectStatus: string;
   updateDay: Date;

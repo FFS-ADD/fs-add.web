@@ -1,13 +1,13 @@
 import { Inject } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import 'rxjs/add/observable/interval';
-import {ProjectProfile, ThresholdProfile} from './setting.interface'
+import {Project, Threshold} from './setting.interface'
 import { SettingService } from './setting.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
-import { ProjectModalInfo,KpiModalInfo } from './setting.class'
+import { ProjectModal,ThresholdModal } from './setting.class'
 import {forEach} from "@angular/router/src/utils/collection";
 import {SelectItem} from 'primeng/primeng';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -24,15 +24,15 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class SettingComponent implements OnInit{
 
   errorDiagnostic: string;
-  projectsInfo:  ProjectProfile[];
+  projectLists:  Project[];
   selectedProject: Object;
-  thresholdInfo: ThresholdProfile[];
-  thresholdShow:ThresholdProfile[];
+  thresholdAllList: Threshold[];
+  thresholdShowList:Threshold[];
   uploadMessage: string;
   isUploading: boolean;
-  thresholdModal: KpiModalInfo;
-  projectModal: ProjectModalInfo;
-  projectList: SelectItem[];
+  thresholdModal: ThresholdModal;
+  projectModal: ProjectModal;
+  projectSelectList: SelectItem[];
   selectedAddProject: string;
   projectForm: FormGroup;
   thresholdForm: FormGroup;
@@ -42,42 +42,15 @@ export class SettingComponent implements OnInit{
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
     this.selectedAddProject="";
-    this.projectModal = {
-      no: -1,
-      title: "",
-      display: false,
-      projectName: "",
-      projectStatus: "",
-      updateDay: new Date(),
-      endDay: new Date()
-    };
-    this.thresholdModal =  {
-      no: -1,
-      title: "",
-      display: false,
-      system: "",
-      catalog: "",
-      kpi: "",
-      overCast:"",
-      rain: "",
-      noticeMsg: ""
-    };
-    this.projectList = [];
+    this.projectModal = new ProjectModal( -1, "",false, "", "", new Date(),new Date());
+    this.thresholdModal = new ThresholdModal ( -1, "",false, "", "", "", "", "", "", "");
+    this.projectSelectList = [];
 
   }
 
   ngOnInit() {
     this.getProjectInfo();
     this.getThresholdInfo();
-    // this.projectForm = this.fb.group({
-    //   'username': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
-    //   'password': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)]]
-    // });
-    //
-    // this.thresholdForm = this.fb.group({
-    //   'username': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
-    //   'password': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)]]
-    // });
   }
 
   delConfirm(event: any) {
@@ -86,9 +59,9 @@ export class SettingComponent implements OnInit{
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
-        for (var i = 0; i < this.thresholdInfo.length; i++) {
-          if(this.thresholdInfo[i].no == event) {
-            this.thresholdInfo.splice(i,1);
+        for (var i = 0; i < this.thresholdAllList.length; i++) {
+          if(this.thresholdAllList[i].no == event) {
+            this.thresholdAllList.splice(i,1);
             break;
           }
         }
