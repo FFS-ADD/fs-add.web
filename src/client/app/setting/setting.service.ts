@@ -2,29 +2,20 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
-import {ProjectProfile, ThresholdProfile} from './setting.interface';
+import {Project, Threshold} from './setting.class';
 
 @Injectable()
 export class SettingService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
   }
 
-  private projectsInfoURL = 'app/projectsInfo';
-  private thresholdInfoURL = 'app/thresholdInfo';
-  private saveProjectsInfoURL = 'app/saveProject';
-  private saveThresholdInfoURL = 'app/saveThreshold';
-  private deleteThresholdBaseURL = 'app/removeThreshold/';
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private projectsInfoURL = 'app/projectList';
+  private thresholdInfoURL = 'app/thresholdList';
 
   private extractData(res: Response) {
     let body = res.json();
     return body.data || { };
-  }
-
-  private getRequestOptions() {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return <RequestOptionsArgs> {headers: headers, withCredentials: true};
   }
 
   private handleError (error: Response) {
@@ -33,41 +24,54 @@ export class SettingService {
     return Observable.throw(error || "Server Error");
   }
 
-  getProjectsInfo() {
+  // CRUD for Project
+  getProjectList() : Observable<Project[]>{
     return this.http.get(this.projectsInfoURL)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getThresholdInfo() {
+  createProject(project: Project) {
+    return this.http
+      .post(this.projectsInfoURL, JSON.stringify(project), {headers: this.headers})
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  updateProject(project: Project){
+    const url = `${this.projectsInfoURL}/${project.id}`;
+    return this.http
+      .put(url, JSON.stringify(project), {headers: this.headers})
+      .map(() => project)
+      .catch(this.handleError);
+  }
+
+  // CRUD for Threshold
+  getThresholdList(): Observable<Threshold[]> {
     return this.http.get(this.thresholdInfoURL)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  saveProjectInfo(projectFrom: ProjectProfile) {
-    let body = JSON.stringify(projectFrom);
-
-    return this.http.post(this.saveProjectsInfoURL, body, this.getRequestOptions())
-      .map((res: Response) => res)
-      .catch(this.handleError);
-  }
-
-  // if the no in form is -1, then save a new Threshold item.
-  // if the no in from > 0, then save the edited item
-  saveThresholdInfo(thresholdFrom: ThresholdProfile) {
-    let body = JSON.stringify(thresholdFrom);
-
-    return this.http.post(this.saveThresholdInfoURL, body, this.getRequestOptions())
-      .map((res: Response) => res)
-      .catch(this.handleError);
-  }
-
-  deleteThresholdItem(no: number) {
-    let deletURL = this.deleteThresholdBaseURL + '/'+ no;
-    return this.http.delete(deletURL)
+  createThreshold(threshold: Threshold) {
+    return this.http
+      .post(this.thresholdInfoURL, JSON.stringify(threshold), {headers: this.headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
+  updateThreshold(threshold: Threshold) {
+    const url = `${this.thresholdInfoURL}/${threshold.id}`;
+    return this.http
+      .put(url, JSON.stringify(threshold), {headers: this.headers})
+      .map(() => threshold)
+      .catch(this.handleError);
+  }
+
+  deleteThreshold(id: number){
+    const url = `${this.thresholdInfoURL}/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .map(() => null)
+      .catch(this.handleError);
+  }
+
 }
 

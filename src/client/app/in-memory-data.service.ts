@@ -4,62 +4,55 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let userlist = [
       {
-        "no": 1,
+        "id": 1,
         "project": "PJ1",
         "role": "Member",
         "avatar": "assets/img/background.jpg",
         "email": "wei.zhang@accenture.com",
-        "fristName": "Wei",
+        "firstName": "Wei",
         "lastName": "zhang"
       },{
-        "no": 2,
+        "id": 2,
         "project": "PJ2",
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
         "email": "changsheng.liu@accenture.com",
-        "fristName": "changsheng",
+        "firstName": "changsheng",
         "lastName": "liu"
       }, {
-        "no": 3,
+        "id": 3,
         "project": "PJ1",
         "role": "Owner",
         "avatar": "assets/img/dashboard.png",
         "email": "xiaodong.deng@accenture.com",
-        "fristName": "xiaodong",
+        "firstName": "xiaodong",
         "lastName": "deng"
       }, {
-        "no": 4,
+        "id": 4,
         "project": "PJ3",
         "role": "Member",
         "avatar": "assets/img/dashboard.png",
         "email": "baofeng.wu@accenture.com",
-        "fristName": "baofeng",
+        "firstName": "baofeng",
         "lastName": "wu"
       }
     ];
 
-    let settingKpi = [
-      { id: 1, name: 'Windstorm' },
-      { id: 2, name: 'Bombasto' },
-      { id: 3, name: 'Magneta' },
-      { id: 4, name: 'Tornado' }
-    ];
-
-    let projectsInfo = [
+    let projectList = [
       {
-        "no": 1,
+        "id": 1,
         "projectName": "PJT1",
         "projectStatus": "In Progress",
         "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       },{
-        "no": 2,
+        "id": 2,
         "projectName": "PJT2",
         "projectStatus": "Planing",
         "updateDay": new Date('2014-04-03'),
         "endDay": new Date('2017-05-01')
       }, {
-        "no": 3,
+        "id": 3,
         "projectName": "PJT3",
         "projectStatus": "Finish",
         "updateDay": new Date('2014-04-03'),
@@ -67,9 +60,9 @@ export class InMemoryDataService implements InMemoryDbService {
     }
     ];
 
-    let thresholdInfo = [
+    let thresholdList = [
       {
-        "no": 1,
+        "id": 1,
         "projectNo": 1,
         "project": "PJT1",
         "system": "Redmine",
@@ -79,7 +72,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please bug"
       },{
-        "no": 2,
+        "id": 2,
         "projectNo": 2,
         "project": "PJT2",
         "system": "Redmine",
@@ -89,7 +82,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please task"
       }, {
-        "no": 3,
+        "id": 3,
         "projectNo": 1,
         "project": "PJT1",
         "system": "Redmine",
@@ -99,7 +92,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please QA"
       }, {
-        "no": 4,
+        "id": 4,
         "projectNo": 1,
         "project": "PJT1",
         "system": "SonarQube",
@@ -109,7 +102,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
-        "no": 5,
+        "id": 5,
         "projectNo": 2,
         "project": "PJT2",
         "system": "SonarQube",
@@ -119,7 +112,7 @@ export class InMemoryDataService implements InMemoryDbService {
         "rain": "1",
         "noticeMsg":"Please Quality"
       }, {
-        "no": 6,
+        "id": 6,
         "projectNo": 3,
         "project": "PJT3",
         "system": "SonarQube",
@@ -131,10 +124,6 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    let saveProject = {
-      'result': 1
-    };
-
-    return {userlist, settingKpi, projectsInfo, thresholdInfo, saveProject};
+    return {userlist, projectList, thresholdList};
   }
 }

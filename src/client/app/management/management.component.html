@@ -21,7 +21,8 @@
           <input #gb type="text" pInputText size="30" placeholder="Global Filter">
           <button type="button" class="add-new-button" (click)="UnSelectedClick()" pButton icon="fa-refresh" label="UnSelect"></button>
         </div>
-        <p-dataTable [value]="users" [rows]="3" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedUser">
+        <p-dataTable [value]="users" [rows]="3" [paginator]="true" [globalFilter]="gb" #dt selectionMode="single" [(selection)]="selectedUser"
+                     (onRowSelect)="onUserSelect($event)">
           <p-headerColumnGroup>
             <p-row>
               <p-column header="" [style]="{width:'30px'}"></p-column>
@@ -45,11 +46,11 @@
             </template>
           </p-column>
           <p-column field="email"></p-column>
-          <p-column field="fristName"></p-column>
+          <p-column field="firstName"></p-column>
           <p-column field="lastName"></p-column>
           <p-column styleClass="col-button">
             <template let-col let-user="rowData" pTemplate="body">
-              <button type="button" class="action-button" (click)="confirmPopup(user.no)" pButton icon="fa-trash" label="Delete"></button>
+              <button type="button" class="action-button" (click)="confirmPopup(user)" pButton icon="fa-trash" label="Delete"></button>
             </template>
           </p-column>
         </p-dataTable>
@@ -57,9 +58,10 @@
 
       <md-card class="sub-card-height">
         <md-card-content>
+          <form  *ngIf="!submitted" (ngSubmit)="submitForm(user)"  #userForm="ngForm">
           <div class="ui-g">
             <div class="ui-g-5">
-              <img class="avatar-image" src="{{selectedUser ? selectedUser.avatar: null}}">
+              <img class="avatar-image" src="{{selectedUser ? selectedUser.avatar: defaultAvatar}}">
               <div >
                 <button class="uploadfile" [disabled]="isUploading">{{uploadMessage}}
                   <input type="file" name="" id="" maxlength="1000000"  accept="image/png,image/gif" (change)="fileChangeEvent($event)">
@@ -67,40 +69,42 @@
               </div>
               <p class="error" *ngIf="errorDiagnostic">{{errorDiagnostic}}</p>
             </div>
-            <div class="ui-g-6">
-              <form (ngSubmit)="onSubmit()" class="form-threshold">
+            <div class="ui-g-6" class="form-threshold">
+                <div class="field input-div-container">
+                  <label for="role">Role</label>
+                  <p-dropdown [options]="rolesList" id="role" required [(ngModel)]="user.role"
+                              [style]="{'width':'235px','text-align': 'left'}" name="role"></p-dropdown>
+                </div>
                 <div class="field input-div-container">
                   <label for="project" >Project</label>
-                  <input id="project" type="text" size="30" placeholder="Global Filter"/>
+                  <input id="project" name="project" type="text" size="30" [(ngModel)]="user.project" name="project" placeholder="Project"/>
                 </div>
                 <div class="field input-div-container">
                   <label for="email" >Email</label>
-                  <input id="email" type="text" size="30" required placeholder="Global Filter" />
+                  <input id="email" name="email" type="text" size="30" [(ngModel)]="user.email" name="email" required placeholder="Email" />
                 </div>
                 <div class="field input-div-container">
                   <label for="password" >Password</label>
-                  <input id="password" type="text" size="30"  placeholder="Global Filter"/>
+                  <input id="password" name="password" type="password" size="30" [(ngModel)]="user.password" name="password" pPassword required placeholder="Password"/>
                 </div>
                 <div class="field input-div-container">
                   <label for="firstName" >FirstName</label>
-                  <input id="firstName" type="text" size="30"   placeholder="Global Filter" />
+                  <input id="firstName" name="firstName" type="text" size="30" [(ngModel)]="user.firstName" name="firstName" required placeholder="FirstName" />
                 </div>
                 <div class="field input-div-container">
                   <label for="lastName" >LastName</label>
-                  <input id="lastName" type="text" size="30"  placeholder="Global Filter"/>
+                  <input id="lastName"  name="lastName" type="text" size="30" [(ngModel)]="user.lastName" name="lastName"  placeholder="LastName" #spy/>
                 </div>
-              </form>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button"  [disabled]="true" (click)="addNew()" pButton icon="fa-check" label="Add"></button>
-              </div>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button" (click)="editItem()" pButton icon="fa-pencil-square-o" label="Edit"></button>
-              </div>
-              <div class="ui-g-4">
-                <button type="button" class="footer-button" (click)="clearInputs()" pButton icon="fa-trash" label="Clean"></button>
-              </div>
+                <div class="ui-g-4">
+                  <button type="button" class="footer-button"  (click)="addNewUser()" pButton icon="fa-check" label="Add"></button>
+                </div>
+                <div class="ui-g-6">
+                  <button type="submit" class="footer-button"  pButton icon="fa-pencil-square-o" [disabled]="!userForm.form.valid" label="Submit"></button>
+                </div>
+
             </div>
           </div>
+          </form>
         </md-card-content>
       </md-card>
 

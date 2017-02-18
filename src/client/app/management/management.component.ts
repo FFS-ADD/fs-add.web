@@ -1,13 +1,14 @@
 import { Inject } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import 'rxjs/add/observable/interval';
-import {userProfile} from '../shared/user/user-profile'
+import {User} from '../shared/user/user'
 import { UserService } from '../shared/user/user.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
 import {ManagementService} from "./mangement.service";
+import {SelectItem} from 'primeng/primeng';
 
 @Component({
   moduleId: module.id,
@@ -20,40 +21,62 @@ import {ManagementService} from "./mangement.service";
 export class ManagementComponent implements OnInit{
 
   errorDiagnostic: string;
-  users:  userProfile[];
+  users:  User[];
   uploadMessage: string;
+  selectedUser:User;
+  rolesList: SelectItem[];
+  user: User;
+  submitted = false;
+  defaultAvatar: string;
   isUploading: boolean;
-  selectedUser:any;
+  isNewUser: boolean;
 
   constructor(private managementService: ManagementService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
-    this.selectedUser ={}
+    this.selectedUser = null;
+    this.user = new User(0,"","","","","","","");
+    this.isNewUser = true;
+    this.rolesList = [
+      {"label": "Owner", "value": "Owner"},
+      {"label": "Member", "value": "Member"},
+    ];
+    this.defaultAvatar = "assets/img/defaultAvatar.jpg"
   }
 
   ngOnInit() {
     this.getUsersList();
   }
 
-  confirmPopup(event: any) {
+  confirmPopup(user: User) {
     this.confirmationService.confirm({
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
       icon: 'fa fa-trash',
       accept: () => {
-        for (var i = 0; i < this.users.length; i++) {
-          if(this.users[i].no == event) {
-            this.users.splice(i,1);
-            break;
-          }
-        }
+        this.delete(user);
       }
     });
   }
 
+  onUserSelect(event: any) {
+    this.user = new User(
+      event.data.id,
+      event.data.role,
+      event.data.project,
+      event.data.avatar,
+      event.data.email,
+      event.data.password,
+      event.data.firstName,
+      event.data.lastName,
+    );
+    this.isNewUser = false;
+  }
+
   UnSelectedClick(event:any) {
-    this.selectedUser ={};
+    this.selectedUser = null;
+    this.isNewUser = true;
     //TODO clear Form information
   }
 
@@ -85,4 +108,38 @@ export class ManagementComponent implements OnInit{
         error =>  this.errorDiagnostic = <any>error);
   }
 
+
+  addNewUser(): void {
+    this.isNewUser = true;
+    this.selectedUser = null;
+    this.user = new User(-1,"","","","","","","");
+  }
+
+  submitForm(user: User) {
+    if (!user) { return; }
+
+    if (this.isNewUser) {
+      this.managementService.createUser(user)
+        .then((user:User) => {
+          this.users.push(user);
+        });
+    } else {
+      this.managementService.updateUser(user)
+        .then((user:User) => {
+          this.getUsersList();
+        });
+    }
+    this.user = new User(0,"","","","","","","");
+    this.selectedUser = null;
+    this.isNewUser = true;
+  }
+
+  delete(user: User): void {
+    this.managementService
+      .deleteUser(user.id)
+      .then(() => {
+        this.users = this.users.filter(h => h !== user);
+        if (this.selectedUser === user) { this.selectedUser = null; }
+      });
+  }
 }
