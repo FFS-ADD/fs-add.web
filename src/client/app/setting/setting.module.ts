@@ -12,6 +12,8 @@ import {DialogModule} from 'primeng/primeng';
 import {DropdownModule} from 'primeng/primeng';
 import {CalendarModule} from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {SettingProjectComponent} from "./setting-project.component";
+import {SettingThresholdComponent} from "./setting-threshold.component";
 
 
 
@@ -30,8 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CalendarModule,
     DropdownModule,
     MaterialModule.forRoot()],
-  declarations: [SettingComponent],
-  exports: [SettingComponent],
+  declarations: [SettingComponent, SettingProjectComponent, SettingThresholdComponent],
+  exports: [SettingComponent, SettingProjectComponent, SettingThresholdComponent],
   providers: [SettingService]
 })
 export class SettingModule { }
