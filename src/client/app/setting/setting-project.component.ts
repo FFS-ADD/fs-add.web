@@ -1,5 +1,5 @@
 import { Inject } from '@angular/core';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output} from '@angular/core';
 import 'rxjs/add/observable/interval';
 import { SettingService } from './setting.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
@@ -34,7 +34,6 @@ export class SettingProjectComponent implements OnInit{
     this.selectedAddProject="";
     this.projectModal = new ProjectModal( -1, "",false, "", "", new Date(),new Date());
     this.projectSelectList = [];
-
   }
 
   ngOnInit() {
@@ -65,14 +64,8 @@ export class SettingProjectComponent implements OnInit{
 
   }
 
-  onProjectSelect(event: any ) {
-    // this.thresholdShowList = this.thresholdAllList.filter( (threshold) => {
-    //   if (event.data.projectName === "all") {
-    //     return true;
-    //   } else {
-    //     return threshold.project === event.data.projectName;
-    //   }
-    // });
+  onProjectSelect(event:  Project) {
+    this.setingService.selectedProject.emit(event);
   }
 
   addProject(): void {

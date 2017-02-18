@@ -30,14 +30,22 @@ export class SettingThresholdComponent implements OnInit{
   projectSelectList: SelectItem[];
   selectedAddProject: string;
 
-  @Input()
-  project: Project;
-
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
     this.thresholdModal = new ThresholdModal ( -1, "",false, "", "", "", "", "", "", "");
     this.projectSelectList = [];
+    this.setingService.selectedProject.subscribe((project: Project) => this.onProjectSelect(project));
+
+  }
+
+  onProjectSelect(project: any) {
+
+    this.thresholdShowList = this.thresholdAllList.filter( (threshold) => {
+
+      return threshold.project === project.data.projectName;
+
+    });
 
   }
 
@@ -67,16 +75,6 @@ export class SettingThresholdComponent implements OnInit{
     }
 
     this.thresholdModal.display = false;
-  }
-
-  onProjectSelect(event: any ) {
-    this.thresholdShowList = this.thresholdAllList.filter( (threshold) => {
-      if (event.data.projectName === "all") {
-        return true;
-      } else {
-        return threshold.project === event.data.projectName;
-      }
-    });
   }
 
   addThreshold() {
@@ -109,7 +107,6 @@ export class SettingThresholdComponent implements OnInit{
       .subscribe(() => {
         this.thresholdAllList = this.thresholdAllList.filter(h => h !== threshold);
         this.thresholdShowList = this.thresholdShowList.filter(h => h !== threshold);
-        if (this.selectedProject === threshold) { this.selectedProject = null; }
       });
   }
 
