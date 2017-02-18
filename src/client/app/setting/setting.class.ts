@@ -1,61 +1,15 @@
-import {Project, Threshold} from "./setting.interface";
-
-export class ProjectModal implements Project{
+export class Threshold {
   id: number;
-  projectName: string;
-  projectStatus: string;
-  updateDay: Date;
-  endDay: Date;
-  private title: string;
-  private display: boolean;
-
-  constructor(id: number, title: string, display: boolean, projectName: string,
-              projectStatus: string, updateDay: Date, endDay: Date){
-    this.id = id;
-    this.title = title;
-    this.display = display;
-    this.projectName = projectName;
-    this.projectStatus = projectStatus;
-    this.updateDay = updateDay;
-    this.endDay = endDay;
-  }
-
-  set projectTitle(ntitle: string){
-  this.title = ntitle;
-}
-
-  get projectTitle() {
-    return this.title;
-  }
-
-  set isModalDisplay(display: boolean){
-    this.display = display;
-  }
-
-  get isModalDisplay() {
-    return this.display;
-  }
-
-}
-
-export class ThresholdModal implements Threshold{
-  id: number;
-  system: string;
   project: string;
+  system: string;
   catalog: string;
   kpi: string;
-  overCast:string;
+  overCast: string;
   rain: string;
   noticeMsg: string;
-  private title: string;
-  private display: boolean;
-
-  constructor(id: number, title: string, display: boolean, system: string,
-              project: string, catalog: string, kpi: string,overCast: string, rain:
-                string, noticeMsg: string){
+  constructor(id: number, system: string, project: string, catalog: string,
+              kpi: string,overCast: string, rain: string, noticeMsg: string){
     this.id = id;
-    this.title = title;
-    this.display = display;
     this.system = system;
     this.project = project;
     this.catalog = catalog;
@@ -64,21 +18,51 @@ export class ThresholdModal implements Threshold{
     this.rain = rain;
     this.noticeMsg = noticeMsg;
   }
+}
 
-  set projectTitle(ntitle: string){
-    this.title = ntitle;
+export class Project {
+  id: number;
+  projectName: string;
+  projectStatus: string;
+  updateDay: Date;
+  endDay: Date;
+  constructor(id: number, projectName: string,
+              projectStatus: string, updateDay: Date, endDay: Date){
+    this.id = id;
+    this.projectName = projectName;
+    this.projectStatus = projectStatus;
+    this.updateDay = updateDay;
+    this.endDay = endDay;
   }
 
-  get projectTitle() {
-    return this.title;
-  }
+}
 
-  set isModalDisplay(display: boolean){
+
+export class ProjectModal extends Project{
+
+  title: string;
+  display: boolean;
+
+  constructor(id: number, title: string, display: boolean, projectName: string,
+              projectStatus: string, updateDay: Date, endDay: Date){
+    super(id,projectName,projectStatus,updateDay,endDay);
+    this.title = title;
     this.display = display;
   }
 
-  get isModalDisplay() {
-    return this.display;
+}
+
+export class ThresholdModal extends Threshold{
+
+  title: string;
+  display: boolean;
+
+  constructor(id: number, title: string, display: boolean, system: string,
+              project: string, catalog: string, kpi: string,overCast: string, rain:
+                string, noticeMsg: string){
+    super(id, system,project,catalog,kpi,overCast,rain,noticeMsg);
+    this.title = title;
+    this.display = display;
   }
 
 }

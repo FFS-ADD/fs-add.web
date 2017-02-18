@@ -1,13 +1,12 @@
 import { Inject } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import 'rxjs/add/observable/interval';
-import {Project, Threshold} from './setting.interface'
 import { SettingService } from './setting.service';
 import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Router } from '@angular/router';
 import { ConfirmationService} from 'primeng/primeng';
-import { ProjectModal,ThresholdModal } from './setting.class'
+import { ProjectModal,ThresholdModal,Project, Threshold} from './setting.class'
 import {forEach} from "@angular/router/src/utils/collection";
 import {SelectItem} from 'primeng/primeng';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -25,11 +24,10 @@ export class SettingComponent implements OnInit{
 
   errorDiagnostic: string;
   projectLists:  Project[];
-  selectedProject: Object;
   thresholdAllList: Threshold[];
   thresholdShowList:Threshold[];
-  uploadMessage: string;
-  isUploading: boolean;
+  selectedProject: Threshold;
+
   thresholdModal: ThresholdModal;
   projectModal: ProjectModal;
   projectSelectList: SelectItem[];
@@ -39,8 +37,6 @@ export class SettingComponent implements OnInit{
 
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
-    this.uploadMessage= "upload new picture";
-    this.isUploading = false;
     this.selectedAddProject="";
     this.projectModal = new ProjectModal( -1, "",false, "", "", new Date(),new Date());
     this.thresholdModal = new ThresholdModal ( -1, "",false, "", "", "", "", "", "", "");
@@ -53,180 +49,129 @@ export class SettingComponent implements OnInit{
     this.getThresholdInfo();
   }
 
-  delConfirm(event: any) {
-    this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'fa fa-trash',
-      accept: () => {
-        for (var i = 0; i < this.thresholdAllList.length; i++) {
-          if(this.thresholdAllList[i].no == event) {
-            this.thresholdAllList.splice(i,1);
-            break;
-          }
-        }
-        // this.setingService.deleteThresholdItem(event)
-        //   .subscribe(
-        //     projectsInfo => {
-        //       //Save success or not
-        //     } ,
-        //     error =>  this.errorDiagnostic = <any>error
-        //   )
-      }
-    });
+  onKPISubmit(kpiInfo:ThresholdModal) {
+
+    let submitForm = new Threshold ( kpiInfo.id, kpiInfo.system, this.selectedAddProject,
+      kpiInfo.catalog, kpiInfo.kpi, kpiInfo.overCast, kpiInfo.rain, kpiInfo.noticeMsg);
+
+    if( kpiInfo.id == -1) {     // For new add
+      //Temp add the id should be add by backend
+      submitForm.id = this.thresholdAllList.length + 1;
+      this.setingService.createThreshold(submitForm)
+        .subscribe(
+          (resThreshold: Threshold)=> {
+            this.getThresholdInfo();
+          });
+    } else { // For edit
+      this.setingService.updateThreshold(submitForm)
+        .subscribe(
+          (resThreshold: Threshold)=> {
+            this.getThresholdInfo();
+          });
+    }
+
+    this.thresholdModal.display = false;
   }
 
-  UnSelectedClick(event:any) {
-    this.selectedProject ={};
-    this.thresholdShow = this.thresholdInfo;
-  }
+  onProjectSubmit(projectInfo:ProjectModal) {
 
-  addProject() {
-    this.projectModal = {
-      no: -1,
-      title: "Add New Project",
-      display: true,
-      projectName: "",
-      projectStatus: "",
-      updateDay: new Date(),
-      endDay: new Date()
-    };
-  }
+    let submitForm = new Project(projectInfo.id, projectInfo.projectName,
+      projectInfo.projectStatus,new Date(projectInfo.updateDay),new Date(projectInfo.endDay));
 
-  addThreshold() {
-    this.thresholdModal =  {
-      no: -1,
-      title: "Add New Threshold",
-      display: true,
-      system: "",
-      catalog: "",
-      kpi: "",
-      overCast:"",
-      rain: "",
-      noticeMsg: ""
-    };
-  }
+    if( projectInfo.id == -1) {     // For new add
+      //Temp add the id should be add by backend
+      submitForm.id = this.projectLists.length + 1;
+      this.setingService.createProject(submitForm)
+        .subscribe(
+          (resProject: Project)=> {
+            this.getProjectInfo();
+        });
+    } else { // For edit
+      this.setingService.updateProject(submitForm)
+        .subscribe(
+          (resProject: Project)=> {
+            this.getProjectInfo();
+          });
+    }
+    this.projectModal.display = false;
 
-  editProject(project: ProjectProfile) {
-    this.projectModal = {
-      title: "Edit Project",
-      display: true,
-      no: project.no,
-      projectName: project.projectName,
-      projectStatus: project.projectStatus,
-      updateDay: new Date(project.updateDay),
-      endDay:  new Date(project.endDay)
-    };
-  }
-
-  editThreshold(threshold: ThresholdProfile) {
-    this.thresholdModal =  {
-      title: "Edit Threshold",
-      display: true,
-      no: threshold.no,
-      system: threshold.system,
-      catalog: threshold.catalog,
-      kpi: threshold.kpi,
-      overCast:threshold.overCast,
-      rain:threshold.rain,
-      noticeMsg: threshold.noticeMsg
-    };
-    this.selectedAddProject = threshold.project;
   }
 
   onProjectSelect(event: any ) {
-    this.thresholdShow = this.thresholdInfo.filter( (threshold) => {
+    this.thresholdShowList = this.thresholdAllList.filter( (threshold) => {
       if (event.data.projectName === "all") {
         return true;
       } else {
         return threshold.project === event.data.projectName;
       }
     });
-
   }
 
-  onProjectSubmit(projectInfo:ProjectModalInfo) {
-
-    let submitForm = {
-      no: projectInfo.no,
-      projectName: projectInfo.projectName,
-      projectStatus: projectInfo.projectStatus,
-      updateDay: new Date(projectInfo.updateDay),
-      endDay: new Date(projectInfo.endDay)
-    };
-
-    if( projectInfo.no == -1) {     // For new add
-      submitForm.no = this.projectsInfo.length + 1;
-      this.projectsInfo.push(submitForm);
-    } else { // For edit
-      for (var i = 0; i < this.projectsInfo.length; i++) {
-        if(this.projectsInfo[i].no == projectInfo.no) {
-          this.projectsInfo[i] = submitForm;
-          break;
-        }
-      }
-    }
-    this.projectModal.display = false;
-    // this.setingService.saveProjectInfo(submitForm)
-    //   .subscribe(
-    //     projectsInfo => {
-    //       //Save success or not
-    //     } ,
-    //     error =>  this.errorDiagnostic = <any>error
-    //   )
-
+  addProject(): void {
+    this.projectModal = new ProjectModal( -1, "Add Project",true, "", "", new Date(),new Date());
   }
 
-  onKPISubmit(kpiInfo:KpiModalInfo) {
+  addThreshold() {
+    this.thresholdModal = new ThresholdModal ( -1, "Add Threshold",true, "", "", "", "", "", "", "");
+  }
 
-    let submitForm = {
-      no: kpiInfo.no,
-      system: kpiInfo.system,
-      project: this.selectedAddProject,
-      catalog: kpiInfo.catalog,
-      kpi: kpiInfo.kpi,
-      overCast:kpiInfo.overCast,
-      rain: kpiInfo.rain,
-      noticeMsg: kpiInfo.noticeMsg
-    };
+  editProject(project: ProjectModal) {
+    this.projectModal = new ProjectModal (
+      project.id, "Edit Project", true,
+      project.projectName, project.projectStatus,
+      new Date(project.updateDay),  new Date(project.endDay));
+  }
 
-    if( kpiInfo.no == -1) {     // For new add
-      submitForm.no = this.thresholdInfo.length + 1;
-      this.thresholdInfo.push(submitForm);
-    } else { // For edit
-      for (var i = 0; i < this.thresholdInfo.length; i++) {
-        if(this.thresholdInfo[i].no == kpiInfo.no) {
-          this.thresholdInfo[i] = submitForm;
-          break;
-        }
+  editThreshold(threshold: ThresholdModal) {
+    this.thresholdModal =  new ThresholdModal(
+      threshold.id, "Edit Threshold", true,
+      threshold.system, threshold.project, threshold.catalog, threshold.kpi,
+      threshold.overCast, threshold.rain, threshold.noticeMsg);
+
+    this.selectedAddProject = threshold.project
+  }
+
+  UnSelectedClick(event:any) {
+    this.selectedProject = null;
+    this.thresholdShowList = this.thresholdAllList;
+  }
+
+  delConfirm(threshold: Threshold) {
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.deleteThreshold(threshold);
       }
-    }
-    this.thresholdModal.display = false;
-    // this.setingService.saveThresholdInfo(submitForm)
-    //   .subscribe(
-    //     projectsInfo => {
-    //          //Save success or not
-    //     } ,
-    //     error =>  this.errorDiagnostic = <any>error
-    //   )
+    });
+  }
 
+  deleteThreshold(threshold: Threshold): void {
+    this.setingService
+      .deleteThreshold(threshold.id)
+      .subscribe(() => {
+        this.thresholdAllList = this.thresholdAllList.filter(h => h !== threshold);
+        this.thresholdShowList = this.thresholdShowList.filter(h => h !== threshold);
+        if (this.selectedProject === threshold) { this.selectedProject = null; }
+      });
   }
 
   getProjectInfo() {
-    this.setingService.getProjectsInfo()
+    this.setingService.getProjectList()
       .subscribe(
         projectsInfo => {
-          this.projectsInfo = projectsInfo ;
-          this.projectsInfo.forEach((info) =>{
-            this.projectList.push({"label": info.projectName, "value": info.projectName});
+          this.projectLists = projectsInfo ;
+          this.projectLists.forEach((info) =>{
+            this.projectSelectList.push({"label": info.projectName, "value": info.projectName});
           })} ,
         error =>  this.errorDiagnostic = <any>error);
   }
 
   getThresholdInfo() {
-    this.setingService.getThresholdInfo()
+    this.setingService.getThresholdList()
       .subscribe(
-        thresholdInfo => this.thresholdInfo = this.thresholdShow = thresholdInfo,
+        thresholdInfo => this.thresholdAllList = this.thresholdShowList = thresholdInfo,
         error =>  this.errorDiagnostic = <any>error);
   }
 

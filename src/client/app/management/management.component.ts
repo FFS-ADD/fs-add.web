@@ -112,7 +112,7 @@ export class ManagementComponent implements OnInit{
   addNewUser(): void {
     this.isNewUser = true;
     this.selectedUser = null;
-    this.user = new User(0,"","","","","","","");
+    this.user = new User(-1,"","","","","","","");
   }
 
   submitForm(user: User) {
