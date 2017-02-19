@@ -3,14 +3,19 @@ import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@an
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import {Project, Threshold} from './setting.class';
+import {SelectItem} from 'primeng/primeng';
 
 @Injectable()
 export class SettingService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
     this.selectedProject = new EventEmitter();
+    this.unselectedProject = new EventEmitter();
+    this.projectChange = new EventEmitter();
   }
 
   public selectedProject: EventEmitter<Project>;
+  public unselectedProject: EventEmitter<boolean>;
+  public projectChange: EventEmitter<SelectItem[]>;
 
   private headers = new Headers({'Content-Type': 'application/json'});
   private projectsInfoURL = 'app/projectList';
@@ -29,6 +34,10 @@ export class SettingService {
 
   selectProject(project:Project) {
     this.selectedProject.emit(project);
+  }
+
+  unselectProject() {
+    this.unselectedProject.emit(true);
   }
 
   // CRUD for Project

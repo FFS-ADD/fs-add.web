@@ -12,7 +12,7 @@
       <!--[formGroup]="thresholdForm"  (ngSubmit)="onKPISubmit(thresholdModal)" -->
       <div class="field input-div-container">
         <label style="text-align: left">Project</label>
-        <p-dropdown [options]="projectSelectList" required [(ngModel)]="selectedAddProject"
+        <p-dropdown [options]="selectProjectLists" required [(ngModel)]="selectedAddProject"
                     [style]="{'width':'235px','text-align': 'left'}" [ngModelOptions]="{standalone: true}"></p-dropdown>
       </div>
       <div class="field input-div-container">

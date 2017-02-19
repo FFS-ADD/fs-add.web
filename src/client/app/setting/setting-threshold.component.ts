@@ -25,17 +25,19 @@ export class SettingThresholdComponent implements OnInit{
   errorDiagnostic: string;
   thresholdAllList: Threshold[];
   thresholdShowList:Threshold[];
-
   thresholdModal: ThresholdModal;
-  projectSelectList: SelectItem[];
   selectedAddProject: string;
+
+  selectProjectLists: SelectItem[];
 
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
     this.thresholdModal = new ThresholdModal ( -1, "",false, "", "", "", "", "", "", "");
-    this.projectSelectList = [];
+    this.selectProjectLists = [];
+    this.setingService.projectChange.subscribe((list:SelectItem[]) => this.selectProjectLists = list);
     this.setingService.selectedProject.subscribe((project: Project) => this.onProjectSelect(project));
+    this.setingService.unselectedProject.subscribe((flag: boolean) => this.onUnselectProject(flag));
 
   }
 
@@ -46,6 +48,12 @@ export class SettingThresholdComponent implements OnInit{
       return threshold.project === project.data.projectName;
 
     });
+
+  }
+
+  onUnselectProject(flag: boolean) {
+
+    this.thresholdShowList = this.thresholdAllList;
 
   }
 

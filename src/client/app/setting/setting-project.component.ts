@@ -26,14 +26,13 @@ export class SettingProjectComponent implements OnInit{
   projectLists:  Project[];
   selectedProject: Threshold;
   projectModal: ProjectModal;
-  projectSelectList: SelectItem[];
   selectedAddProject: string;
+  projectSelectList: SelectItem[];
 
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
     this.projectModal = new ProjectModal( -1, "",false, "", "", new Date(),new Date());
-    this.projectSelectList = [];
   }
 
   ngOnInit() {
@@ -65,7 +64,7 @@ export class SettingProjectComponent implements OnInit{
   }
 
   onProjectSelect(event:  Project) {
-    this.setingService.selectedProject.emit(event);
+    this.setingService.selectProject(event);
   }
 
   addProject(): void {
@@ -81,7 +80,7 @@ export class SettingProjectComponent implements OnInit{
 
   UnSelectedClick(event:any) {
     this.selectedProject = null;
-    // this.thresholdShowList = this.thresholdAllList;
+    this.setingService.unselectProject();
   }
 
   getProjectInfo() {
@@ -89,9 +88,12 @@ export class SettingProjectComponent implements OnInit{
       .subscribe(
         projectsInfo => {
           this.projectLists = projectsInfo ;
+          this.projectSelectList = [];
           this.projectLists.forEach((info) =>{
             this.projectSelectList.push({"label": info.projectName, "value": info.projectName});
-          })} ,
+          });
+          this.setingService.projectChange.emit(this.projectSelectList);
+        } ,
         error =>  this.errorDiagnostic = <any>error);
   }
 
