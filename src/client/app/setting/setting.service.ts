@@ -1,13 +1,21 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter} from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import {Project, Threshold} from './setting.class';
+import {SelectItem} from 'primeng/primeng';
 
 @Injectable()
 export class SettingService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
+    this.selectedProject = new EventEmitter();
+    this.unselectedProject = new EventEmitter();
+    this.projectChange = new EventEmitter();
   }
+
+  public selectedProject: EventEmitter<Project>;
+  public unselectedProject: EventEmitter<boolean>;
+  public projectChange: EventEmitter<SelectItem[]>;
 
   private headers = new Headers({'Content-Type': 'application/json'});
   private projectsInfoURL = 'app/projectList';
@@ -22,6 +30,14 @@ export class SettingService {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     return Observable.throw(error || "Server Error");
+  }
+
+  selectProject(project:Project) {
+    this.selectedProject.emit(project);
+  }
+
+  unselectProject() {
+    this.unselectedProject.emit(true);
   }
 
   // CRUD for Project

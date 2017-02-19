@@ -1,0 +1,77 @@
+<div>
+
+  <p-dialog header="{{projectModal.title}}" width=500 height=510 modal=true [(visible)]="projectModal.display">
+    <form  class="form-project">
+      <!--[formGroup]="projectForm" -->
+      <div class="field input-div-container">
+        <label for="projectName">ProjectName</label>
+        <input id="projectName" type="text" size="30"  [ngModelOptions]="{standalone: true}"
+               required placeholder="eg.PJT" [(ngModel)]="projectModal.projectName" />
+      </div>
+      <div class="field input-div-container">
+        <label for="projectStatus">ProjectStatus</label>
+        <input id="projectStatus" type="text" size="30" [ngModelOptions]="{standalone: true}"
+               required  placeholder="eg.In progress" [(ngModel)]="projectModal.projectStatus" />
+      </div>
+      <div class="field input-div-container" >
+        <label>Last Updated Day</label>
+        <p-calendar [(ngModel)]="projectModal.updateDay" [inputStyle]="{'width':'235px','height': '30px'}"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
+                    [ngModelOptions]="{standalone: true}"></p-calendar>
+      </div>
+      <div class="field input-div-container" >
+        <label>End Day</label>
+        <p-calendar [(ngModel)]="projectModal.endDay" [inputStyle]="{'width':'235px','height': '30px'}"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
+                    [ngModelOptions]="{standalone: true}"></p-calendar>
+      </div>
+    </form>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
+        <button type="submit" pButton class="action-button" icon="fa-check" (click)="onProjectSubmit(projectModal)" label="Save"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+
+  <div class="div-padding-bottom">
+  <div class="ui-widget-header div-threshold">
+    <button type="button" class="add-new-button" (click)="addProject()" pButton icon="fa-plus-square-o" label="Add"></button>
+    <button type="button" class="add-new-button" (click)="UnSelectedClick()" pButton icon="fa-refresh" label="UnSelect"></button>
+  </div>
+  <p-dataTable [value]="projectLists" [rows]="3" [paginator]="true" selectionMode="single" [(selection)]="selectedProject"
+               (onRowSelect)="onProjectSelect($event)">
+    <p-headerColumnGroup>
+      <p-row>
+        <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
+        <p-column header="ProjectName" colspan="1" rowspan="2"></p-column>
+        <p-column header="ProjectStatus" colspan="1" rowspan="2"></p-column>
+        <p-column header="Last Updated Day" colspan="1" rowspan="2"></p-column>
+        <p-column header="End Day" colspan="1" rowspan="2"></p-column>
+        <p-column header="Action" colspan="1" rowspan="2" [style]="{'width':'90px'}"></p-column>
+      </p-row>
+    </p-headerColumnGroup>
+    <p-column  styleClass="col-icon"  [style]="{'width':'300px'}" selectionMode="single"></p-column>
+    <p-column  field="id"></p-column>
+    <p-column field="projectName"></p-column>
+    <p-column field="projectStatus"></p-column>
+    <!--Last updated Day-->
+    <p-column>
+      <template let-col let-project="rowData" pTemplate="body">
+        {{project.updateDay|date:'MM/dd/yyyy'}}
+      </template>
+    </p-column>
+    <!--End Day-->
+    <p-column>
+      <template let-col let-project="rowData" pTemplate="body">
+        {{project.endDay|date:'MM/dd/yyyy'}}
+      </template>
+    </p-column>
+    <p-column styleClass="col-button">
+      <template let-col let-project="rowData" pTemplate="body">
+            <button type="button" class="action-button"  (click)="editProject(project)"   pButton icon="fa-pencil-square-o" label="Edit"></button>
+      </template>
+    </p-column>
+  </p-dataTable>
+  </div>
+</div>
