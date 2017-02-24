@@ -42,7 +42,8 @@ export class SettingProjectComponent implements OnInit{
   onProjectSubmit(projectInfo:ProjectModal) {
 
     let submitForm = new Project(projectInfo.id, projectInfo.projectName,
-      projectInfo.projectStatus,new Date(projectInfo.updateDay),new Date(projectInfo.endDay));
+      projectInfo.projectStatus,new Date(projectInfo.updateDay.getFullYear(), projectInfo.updateDay.getMonth(), projectInfo.updateDay.getDate()),
+      new Date(projectInfo.endDay.getFullYear(), projectInfo.endDay.getMonth(), projectInfo.endDay.getDate()));
 
     if( projectInfo.id == -1) {     // For new add
       //Temp add the id should be add by backend

@@ -18,8 +18,13 @@ export class SettingService {
   public projectChange: EventEmitter<SelectItem[]>;
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private projectsInfoURL = 'app/projectList';
-  private thresholdInfoURL = 'app/thresholdList';
+  private projectsInfoURL = 'http://localhost:9090/boot/websetting/getProjectsInfo';
+  private updateProjectURL = 'http://localhost:9090/boot/websetting/updateProject';
+  private createProjectURL = 'http://localhost:9090/boot/websetting/createProject';
+  private thresholdInfoURL = 'http://localhost:9090/boot/websetting/getThresholdInfo';
+  private createThresholdURL = 'http://localhost:9090/boot/websetting/createThreshold';
+  private updateThresholdURL = 'http://localhost:9090/boot/websetting/updateThreshold';
+  private deleteThresholdURL = 'http://localhost:9090/boot/websetting/deleteThreshold';
 
   private extractData(res: Response) {
     let body = res.json();
@@ -49,14 +54,13 @@ export class SettingService {
 
   createProject(project: Project) {
     return this.http
-      .post(this.projectsInfoURL, JSON.stringify(project), {headers: this.headers})
+      .post(this.createProjectURL, JSON.stringify(project), {headers: this.headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
   updateProject(project: Project){
-    const url = `${this.projectsInfoURL}/${project.id}`;
     return this.http
-      .put(url, JSON.stringify(project), {headers: this.headers})
+      .post(this.updateProjectURL, JSON.stringify(project), {headers: this.headers})
       .map(() => project)
       .catch(this.handleError);
   }
@@ -70,21 +74,19 @@ export class SettingService {
 
   createThreshold(threshold: Threshold) {
     return this.http
-      .post(this.thresholdInfoURL, JSON.stringify(threshold), {headers: this.headers})
+      .post(this.createThresholdURL, JSON.stringify(threshold), {headers: this.headers})
       .map(this.extractData)
       .catch(this.handleError);
   }
   updateThreshold(threshold: Threshold) {
-    const url = `${this.thresholdInfoURL}/${threshold.id}`;
     return this.http
-      .put(url, JSON.stringify(threshold), {headers: this.headers})
+      .post(this.updateThresholdURL, JSON.stringify(threshold), {headers: this.headers})
       .map(() => threshold)
       .catch(this.handleError);
   }
 
-  deleteThreshold(id: number){
-    const url = `${this.thresholdInfoURL}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+  deleteThreshold(threshold: Threshold){
+    return this.http.post(this.deleteThresholdURL, JSON.stringify(threshold), {headers: this.headers})
       .map(() => null)
       .catch(this.handleError);
   }

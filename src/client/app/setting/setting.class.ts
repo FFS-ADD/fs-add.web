@@ -1,5 +1,5 @@
 export class Threshold {
-  id: number;
+  id: string;
   project: string;
   system: string;
   catalog: string;
@@ -7,7 +7,7 @@ export class Threshold {
   overCast: string;
   rain: string;
   noticeMsg: string;
-  constructor(id: number, system: string, project: string, catalog: string,
+  constructor(id: string, system: string, project: string, catalog: string,
               kpi: string,overCast: string, rain: string, noticeMsg: string){
     this.id = id;
     this.system = system;
@@ -21,12 +21,12 @@ export class Threshold {
 }
 
 export class Project {
-  id: number;
+  id: string;
   projectName: string;
   projectStatus: string;
   updateDay: Date;
   endDay: Date;
-  constructor(id: number, projectName: string,
+  constructor(id: string, projectName: string,
               projectStatus: string, updateDay: Date, endDay: Date){
     this.id = id;
     this.projectName = projectName;
@@ -43,7 +43,7 @@ export class ProjectModal extends Project{
   title: string;
   display: boolean;
 
-  constructor(id: number, title: string, display: boolean, projectName: string,
+  constructor(id: string, title: string, display: boolean, projectName: string,
               projectStatus: string, updateDay: Date, endDay: Date){
     super(id,projectName,projectStatus,updateDay,endDay);
     this.title = title;

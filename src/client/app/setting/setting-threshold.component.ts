@@ -111,7 +111,7 @@ export class SettingThresholdComponent implements OnInit{
 
   deleteThreshold(threshold: Threshold): void {
     this.setingService
-      .deleteThreshold(threshold.id)
+      .deleteThreshold(threshold)
       .subscribe(() => {
         this.thresholdAllList = this.thresholdAllList.filter(h => h !== threshold);
         this.thresholdShowList = this.thresholdShowList.filter(h => h !== threshold);

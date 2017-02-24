@@ -10,11 +10,11 @@ export class ManagementService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
   }
   private headers = new Headers({'Content-Type': 'application/json'});
-  private userListURL = 'http://localhost:8080/boot/webmanagement/getUserListInfo';
-  private uploadImageURL = 'http://localhost:8080/boot/webmanagement/photoupload';
-  private deleteUserURL = 'http://localhost:8080/boot/webmanagement/delete';
-  private createUserURL = 'http://localhost:8080/boot/webmanagement/create';
-  private updateUserURL = 'http://localhost:8080/boot/webmanagement/update';
+  private userListURL = 'http://localhost:9090/boot/webmanagement/getUserListInfo';
+  private uploadImageURL = 'http://localhost:9090/boot/webmanagement/photoupload';
+  private deleteUserURL = 'http://localhost:9090/boot/webmanagement/delete';
+  private createUserURL = 'http://localhost:9090/boot/webmanagement/create';
+  private updateUserURL = 'http://localhost:9090/boot/webmanagement/update';
 
   getUserListInfo() {
     return this.http.get(this.userListURL)
