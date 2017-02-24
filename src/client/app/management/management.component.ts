@@ -121,7 +121,7 @@ export class ManagementComponent implements OnInit{
     if (this.isNewUser) {
       this.managementService.createUser(user)
         .then((user:User) => {
-          this.users.push(user);
+          this.getUsersList();
         });
     } else {
       this.managementService.updateUser(user)
@@ -136,7 +136,7 @@ export class ManagementComponent implements OnInit{
 
   delete(user: User): void {
     this.managementService
-      .deleteUser(user.id)
+      .deleteUser(user)
       .then(() => {
         this.users = this.users.filter(h => h !== user);
         if (this.selectedUser === user) { this.selectedUser = null; }

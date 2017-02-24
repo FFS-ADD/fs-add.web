@@ -10,8 +10,11 @@ export class ManagementService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
   }
   private headers = new Headers({'Content-Type': 'application/json'});
-  private userListURL = 'app/userlist';
-  private uploadImageURL = 'app/uploadImage';
+  private userListURL = 'http://localhost:8080/boot/webmanagement/getUserListInfo';
+  private uploadImageURL = 'http://localhost:8080/boot/webmanagement/photoupload';
+  private deleteUserURL = 'http://localhost:8080/boot/webmanagement/delete';
+  private createUserURL = 'http://localhost:8080/boot/webmanagement/create';
+  private updateUserURL = 'http://localhost:8080/boot/webmanagement/update';
 
   getUserListInfo() {
     return this.http.get(this.userListURL)
@@ -19,26 +22,25 @@ export class ManagementService {
       .catch(this.handleError);
   }
 
-  deleteUser(id: number): Promise<void> {
-    const url = `${this.userListURL}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
+  deleteUser(user: User): Promise<void> {
+    return this.http
+      .post(this.deleteUserURL, JSON.stringify(user), {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(this.extractData)
       .catch(this.handleError);
   }
   createUser(user: User): Promise<User> {
     return this.http
-      .post(this.userListURL, JSON.stringify(user), {headers: this.headers})
+      .post(this.createUserURL, JSON.stringify(user), {headers: this.headers})
       .toPromise()
-      .then(res => res.json().data)
+      .then(this.extractData)
       .catch(this.handleError);
   }
   updateUser(user: User): Promise<User> {
-    const url = `${this.userListURL}/${user.id}`;
     return this.http
-      .put(url, JSON.stringify(user), {headers: this.headers})
+      .post(this.updateUserURL, JSON.stringify(user), {headers: this.headers})
       .toPromise()
-      .then(() => user)
+      .then(this.extractData)
       .catch(this.handleError);
   }
 
