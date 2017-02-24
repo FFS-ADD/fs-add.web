@@ -2,8 +2,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from '../in-memory-data.service';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService }  from '../in-memory-data.service';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -16,7 +16,7 @@ import { UserService } from './user/user.service';
  */
 
 @NgModule({
-  imports: [CommonModule, RouterModule, InMemoryWebApiModule.forRoot(InMemoryDataService, {delay: 500})],
+  imports: [CommonModule, RouterModule],
   declarations: [ToolbarComponent, FooterComponent],
   exports: [ToolbarComponent,FooterComponent,
     CommonModule, FormsModule, RouterModule]

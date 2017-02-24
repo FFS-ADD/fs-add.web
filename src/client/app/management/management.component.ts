@@ -36,7 +36,7 @@ export class ManagementComponent implements OnInit{
     this.uploadMessage= "upload new picture";
     this.isUploading = false;
     this.selectedUser = null;
-    this.user = new User(0,"","","","","","","");
+    this.user = new User("0","","","","","","","");
     this.isNewUser = true;
     this.rolesList = [
       {"label": "Owner", "value": "Owner"},
@@ -112,7 +112,7 @@ export class ManagementComponent implements OnInit{
   addNewUser(): void {
     this.isNewUser = true;
     this.selectedUser = null;
-    this.user = new User(-1,"","","","","","","");
+    this.user = new User("-1","","","","","","","");
   }
 
   submitForm(user: User) {
@@ -129,7 +129,7 @@ export class ManagementComponent implements OnInit{
           this.getUsersList();
         });
     }
-    this.user = new User(0,"","","","","","","");
+    this.user = new User("0","","","","","","","");
     this.selectedUser = null;
     this.isNewUser = true;
   }
