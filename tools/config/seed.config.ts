@@ -553,7 +553,13 @@ export class SeedConfig {
    * }
    */
   getProxyMiddleware(): Array<any> {
-    return [];
+   const proxyMiddleware = require('http-proxy-middleware');
+   return [
+      proxyMiddleware('/boot', {
+          ws: false,
+          target: 'http://localhost:9090'
+         })
+      ];
   }
 
   /**

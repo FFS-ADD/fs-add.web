@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserService} from "../user/user.service";
 
 /**
  * This class represents the toolbar component.
@@ -11,13 +12,16 @@ import { Component } from '@angular/core';
 })
 export class ToolbarComponent {
   user_logined: boolean;
+  userName: string = null;
 
-  constructor() {
+  constructor(private _userService: UserService,) {
+    _userService.authenticatedChange.subscribe((res:string)=> this.showLoginInfo());
     this.user_logined = false;
   }
 
-  login() {
-    this.user_logined = !this.user_logined;
+  showLoginInfo() {
+    this.user_logined = true;
+    this.userName = this._userService.getLoginUserName();
   }
 
 }

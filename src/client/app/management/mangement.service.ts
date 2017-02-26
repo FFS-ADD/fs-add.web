@@ -4,12 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/toPromise';
 import {User} from "../shared/user/user";
+import {UserService} from "../shared/user/user.service";
 
 @Injectable()
 export class ManagementService {
-  constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
+  constructor (private http: Http, @Inject('apiBase') private _apiBase: string, private userService:UserService) {
+    userService.authenticatedChange.subscribe((res:string) => this.accessToken = res);
   }
   private headers = new Headers({'Content-Type': 'application/json'});
+  private accessToken: string = null;
   private userListURL = 'http://localhost:9090/boot/webmanagement/getUserListInfo';
   private uploadImageURL = 'http://localhost:9090/boot/webmanagement/photoupload';
   private deleteUserURL = 'http://localhost:9090/boot/webmanagement/delete';
@@ -63,7 +66,7 @@ export class ManagementService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return <RequestOptionsArgs> {headers: headers, withCredentials: true};
+    return <RequestOptionsArgs> {headers: headers};
   }
 
   private handleError (error: Response) {

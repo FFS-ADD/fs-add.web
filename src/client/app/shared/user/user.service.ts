@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -8,27 +8,33 @@ export class UserService {
   constructor (private http: Http, @Inject('apiBase') private _apiBase: string) {
 
   }
+  public authenticatedChange = new EventEmitter();
 
   // private _loginApi = this._apiBase + '/login/authorize';
   private _loginApi = 'api/users';
   private _logoutApi = this._apiBase + '/logout';
 
+  private loginUserName:string = "";
+  private apiAccessToken: string = null;
+
+
 
   private userlistURL = 'app/userlist';
   private projectSettingURL = 'app/projectSettings'
+  private authenticatedApi = 'http://localhost:9090/boot/oauth/token';
 
   login(user:any) {
-    let body = JSON.stringify(user);
+    user.grant_type = 'password';
     let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this.http.post(this.userlistURL, body, <RequestOptionsArgs> {headers: headers, withCredentials: true})
-                    .map((res: Response) => res)
+    headers.append("Authorization", "Basic ZnMtYWRkLm1vYmlsZToxMjM0NTY3ODkw");
+    this.loginUserName = user.username;
+    return this.http.post(this.authenticatedApi, user, { headers: headers })
+                    .map(this.extractLoginData)
                     .catch(this.handleError);
   }
 
   logout() {
-    return this.http.get(this._logoutApi, <RequestOptionsArgs> {withCredentials: true})
+    return this.http.get(this._logoutApi)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }
@@ -37,6 +43,30 @@ export class UserService {
     let body = res.json();
     return body.data || { };
   }
+
+  private extractLoginData(res: Response) {
+    let result = res.json().data;
+    if(result && result.access_token) {
+      this.apiAccessToken = result.access_token;
+      this.authenticatedChange.emit(this.apiAccessToken);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getAuthorizationToken() {
+
+    return this.apiAccessToken;
+
+  }
+
+  getLoginUserName() {
+
+    return this.loginUserName;
+
+  }
+
 
   getUsers() {
     return this.http.get(this.userlistURL)
@@ -50,12 +80,6 @@ export class UserService {
       .map(this.extractData)
       .catch(this.handleError);
 
-  }
-
-  getMe() {
-    return this.http.get(this._apiBase + '/api/users/me/', <RequestOptionsArgs> {withCredentials: true})
-                  .map((res: Response) => res.json().me)
-                  .catch(this.handleError);
   }
 
   private handleError (error: Response) {

@@ -5,8 +5,9 @@
   <button *ngIf="!user_logined" (click)="login()" >
     <a [routerLink]="['/login']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Sign in</a>
   </button>
-  <span *ngIf="user_logined" (click)="login()">
-    <img style="width: 35px; height: 35px; border-radius: 50%;" src="assets/img/dashboard.png">
+  <span *ngIf="user_logined">
+    <!--<img style="width: 35px; height: 35px; border-radius: 50%;" src="assets/img/dashboard.png">-->
+    {{userName}}
   </span>
   <ul>
     <li><a class="hide_on_mobile" [routerLink]="['/']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
