@@ -24,10 +24,16 @@ md-card {
   height: 280px;
 }
 .avatar-image {
-  width: 160px;
-  height:160px;
+    width: 160px;
+    height:160px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+.avatar-table-image {
+  width: 35px;
+  height:35px;
   border-radius: 50%;
-  margin-bottom: 10px;
 }
 
 .uploadfile {

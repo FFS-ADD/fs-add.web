@@ -42,7 +42,7 @@
           <p-column field="role"></p-column>
           <p-column field="avatar">
             <template let-col let-user="rowData" pTemplate="body">
-              <img style="width: 35px;" src="{{user[col.field]}}">
+              <img class="avatar-table-image" src="{{user[col.field]}}">
             </template>
           </p-column>
           <p-column field="email"></p-column>
@@ -61,10 +61,10 @@
           <form  *ngIf="!submitted" (ngSubmit)="submitForm(user)"  #userForm="ngForm">
           <div class="ui-g">
             <div class="ui-g-5">
-              <img class="avatar-image" src="{{selectedUser ? selectedUser.avatar: defaultAvatar}}">
+              <img class="avatar-image" src="{{base64img}}">
               <div >
                 <button class="uploadfile" [disabled]="isUploading">{{uploadMessage}}
-                  <input type="file" name="" id="" maxlength="1000000"  accept="image/png,image/gif" (change)="fileChangeEvent($event)">
+                  <input type="file" name="" id=""  accept="image/png,image/jpeg,image/gif" (change)="fileChangeEvent($event)">
                 </button>
               </div>
               <p class="error" *ngIf="errorDiagnostic">{{errorDiagnostic}}</p>

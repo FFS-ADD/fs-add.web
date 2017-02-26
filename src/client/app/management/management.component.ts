@@ -20,6 +20,7 @@ import {SelectItem} from 'primeng/primeng';
 
 export class ManagementComponent implements OnInit{
 
+  defaultAvatar: string = "assets/img/defaultAvatar.jpg";
   errorDiagnostic: string;
   users:  User[];
   uploadMessage: string;
@@ -27,13 +28,16 @@ export class ManagementComponent implements OnInit{
   rolesList: SelectItem[];
   user: User;
   submitted = false;
-  defaultAvatar: string;
   isUploading: boolean;
   isNewUser: boolean;
+  base64img: string;
+
+  //Max Size 2M
+  private maxUploadImageSize: number = 1024 * 1024 * 2;
 
   constructor(private managementService: ManagementService, private http:
     Http, private _router: Router, private confirmationService: ConfirmationService) {
-    this.uploadMessage= "upload new picture";
+    this.uploadMessage= "select new picture";
     this.isUploading = false;
     this.selectedUser = null;
     this.user = new User("0","","","","","","","");
@@ -42,7 +46,7 @@ export class ManagementComponent implements OnInit{
       {"label": "Owner", "value": "Owner"},
       {"label": "Member", "value": "Member"},
     ];
-    this.defaultAvatar = "assets/img/defaultAvatar.jpg"
+    this.base64img = this.defaultAvatar;
   }
 
   ngOnInit() {
@@ -71,12 +75,14 @@ export class ManagementComponent implements OnInit{
       event.data.firstName,
       event.data.lastName,
     );
+    this.base64img = event.data.avatar;
     this.isNewUser = false;
   }
 
   UnSelectedClick(event:any) {
     this.selectedUser = null;
     this.isNewUser = true;
+    this.base64img = this.defaultAvatar;
     //TODO clear Form information
   }
 
@@ -84,20 +90,16 @@ export class ManagementComponent implements OnInit{
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
       let file: File = fileList[0];
-      this.uploadMessage="uploading..."
       this.isUploading = true;
-      this.managementService.uploadAvatarPicture(file).subscribe(data => {
-          this.uploadMessage= "upload new picture";
-          this.isUploading = false;
-          this._router.navigate(['/']);
-        },
-        error => {
-          this.uploadMessage= "upload new picture";
-          this.isUploading = false;
-          let objectSource:any = USER_STATUS_CODES;
-          this.errorDiagnostic =  objectSource[error.status] || objectSource[500];
-          // this._router.navigate(['/']);
-        });
+      if (file.size > this.maxUploadImageSize) {
+        this.errorDiagnostic = "Can't upload image over 2M!"
+      } else {
+        this.managementService.readFile(file)
+          .then( (result:any) => {
+            this.base64img = result;
+            this.errorDiagnostic = "";
+          });
+      }
     }
   }
 
@@ -112,26 +114,33 @@ export class ManagementComponent implements OnInit{
   addNewUser(): void {
     this.isNewUser = true;
     this.selectedUser = null;
-    this.user = new User("-1","","","","","","","");
+    this.user = new User("-1","","",this.defaultAvatar,"","","","");
+    this.base64img = this.defaultAvatar;
   }
 
   submitForm(user: User) {
     if (!user) { return; }
-
+    user.avatar = this.base64img;
     if (this.isNewUser) {
       this.managementService.createUser(user)
         .then((user:User) => {
           this.getUsersList();
+          this.user = new User("0","","",this.defaultAvatar,"","","","");
+          this.selectedUser = null;
+          this.isNewUser = true;
+          this.base64img = this.defaultAvatar;
         });
     } else {
       this.managementService.updateUser(user)
         .then((user:User) => {
           this.getUsersList();
+          this.user = new User("0","","",this.defaultAvatar,"","","","");
+          this.selectedUser = null;
+          this.isNewUser = true;
+          this.base64img = this.defaultAvatar;
         });
     }
-    this.user = new User("0","","","","","","","");
-    this.selectedUser = null;
-    this.isNewUser = true;
+
   }
 
   delete(user: User): void {

@@ -44,17 +44,14 @@ export class ManagementService {
       .catch(this.handleError);
   }
 
-  uploadAvatarPicture(file:File) {
-
-    let formData:FormData = new FormData();
-    formData.append('uploadFile', file, file.name);
-    let headers = new Headers();
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.uploadImageURL, formData, options)
-      .map((res: Response) => res)
-      .catch(this.handleError);
+  readFile(file: File) {
+    return new Promise(function(resolve, reject) {
+      const reader = new FileReader()
+      reader.onload = function(e: any) {
+        resolve(e.target.result)
+      }
+      reader.readAsDataURL(file);
+    })
   }
 
   private extractData(res: Response) {
