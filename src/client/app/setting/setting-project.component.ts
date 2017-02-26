@@ -32,7 +32,7 @@ export class SettingProjectComponent implements OnInit{
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
-    this.projectModal = new ProjectModal( -1, "",false, "", "", new Date(),new Date());
+    this.projectModal = new ProjectModal( "-1", "",false, "", "", new Date(),new Date());
   }
 
   ngOnInit() {
@@ -45,9 +45,9 @@ export class SettingProjectComponent implements OnInit{
       projectInfo.projectStatus,new Date(projectInfo.updateDay.getFullYear(), projectInfo.updateDay.getMonth(), projectInfo.updateDay.getDate()),
       new Date(projectInfo.endDay.getFullYear(), projectInfo.endDay.getMonth(), projectInfo.endDay.getDate()));
 
-    if( projectInfo.id == -1) {     // For new add
+    if( projectInfo.id === "-1") {     // For new add
       //Temp add the id should be add by backend
-      submitForm.id = this.projectLists.length + 1;
+      submitForm.id = this.projectLists.length + 1 + "";
       this.setingService.createProject(submitForm)
         .subscribe(
           (resProject: Project)=> {
@@ -69,7 +69,7 @@ export class SettingProjectComponent implements OnInit{
   }
 
   addProject(): void {
-    this.projectModal = new ProjectModal( -1, "Add Project",true, "", "", new Date(),new Date());
+    this.projectModal = new ProjectModal( "-1", "Add Project",true, "", "", new Date(),new Date());
   }
 
   editProject(project: ProjectModal) {

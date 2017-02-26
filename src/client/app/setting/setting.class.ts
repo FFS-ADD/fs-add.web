@@ -57,7 +57,7 @@ export class ThresholdModal extends Threshold{
   title: string;
   display: boolean;
 
-  constructor(id: number, title: string, display: boolean, system: string,
+  constructor(id: string, title: string, display: boolean, system: string,
               project: string, catalog: string, kpi: string,overCast: string, rain:
                 string, noticeMsg: string){
     super(id, system,project,catalog,kpi,overCast,rain,noticeMsg);
