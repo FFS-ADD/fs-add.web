@@ -13,6 +13,7 @@ import {ManagementService} from "./mangement.service";
 import {DropdownModule} from 'primeng/primeng';
 import {PasswordModule} from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
+import { UnauthenticatedGuard } from './../unauthenticated.guard';
 
 @NgModule({
   imports: [CommonModule,
@@ -28,7 +29,7 @@ import { FormsModule } from '@angular/forms';
     MaterialModule.forRoot()],
   declarations: [ManagementComponent],
   exports: [ManagementComponent],
-  providers: [ManagementService
+  providers: [ManagementService, UnauthenticatedGuard
    ]
 })
 export class ManagementModule { }

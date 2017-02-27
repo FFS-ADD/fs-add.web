@@ -26,8 +26,8 @@ export class UserService {
   login(user:any) {
     user.grant_type = 'password';
     let headers = new Headers();
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
     headers.append("Authorization", "Basic ZnMtYWRkLm1vYmlsZToxMjM0NTY3ODkw");
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
     let bodyData = new URLSearchParams();
     Object.keys(user).map((k) => {
       if (user.hasOwnProperty(k)) {

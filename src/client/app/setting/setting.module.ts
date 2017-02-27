@@ -14,6 +14,7 @@ import {CalendarModule} from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SettingProjectComponent} from "./setting-project.component";
 import {SettingThresholdComponent} from "./setting-threshold.component";
+import { UnauthenticatedGuard } from './../unauthenticated.guard';
 
 
 
@@ -34,6 +35,6 @@ import {SettingThresholdComponent} from "./setting-threshold.component";
     MaterialModule.forRoot()],
   declarations: [SettingComponent, SettingProjectComponent, SettingThresholdComponent],
   exports: [SettingComponent, SettingProjectComponent, SettingThresholdComponent],
-  providers: [SettingService]
+  providers: [SettingService, UnauthenticatedGuard]
 })
 export class SettingModule { }
