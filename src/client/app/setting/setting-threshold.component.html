@@ -8,48 +8,57 @@
   </p-confirmDialog>
 
   <p-dialog header="{{thresholdModal.title}}" modal=true [(visible)]="thresholdModal.display">
-    <form  class="form-threshold">
+    <form  class="form-threshold" #userForm="ngForm">
       <!--[formGroup]="thresholdForm"  (ngSubmit)="onKPISubmit(thresholdModal)" -->
       <div class="field input-div-container">
         <label style="text-align: left">Project</label>
-        <p-dropdown [options]="selectProjectLists" required [(ngModel)]="selectedAddProject"
-                    [style]="{'width':'235px','text-align': 'left'}" [ngModelOptions]="{standalone: true}"></p-dropdown>
+        <p-dropdown [options]="selectProjectLists" required [(ngModel)]="thresholdModal.project"
+                    [style]="{'width':'235px','text-align': 'left'}" name="project"></p-dropdown>
       </div>
       <div class="field input-div-container">
-        <label for="system">System</label>
-        <input id="system" type="text" size="30" [(ngModel)]="thresholdModal.system" [ngModelOptions]="{standalone: true}"
-               required placeholder="eg.Redmine"/>
+        <label style="text-align: left">System</label>
+        <p-dropdown [options]="selectSystemLists" required [(ngModel)]="thresholdModal.system" (onChange)="onSystemSelected($event.value)"
+                    [style]="{'width':'235px','text-align': 'left'}" name="system"></p-dropdown>
+        <!--<label for="system">System</label>-->
+        <!--<input id="system" type="text" size="30" [(ngModel)]="thresholdModal.system" [ngModelOptions]="{standalone: true}"-->
+               <!--required placeholder="eg.Redmine"/>-->
       </div>
       <div class="field input-div-container">
-        <label for="catalog">Catalog</label>
-        <input id="catalog" type="text" size="30" [(ngModel)]="thresholdModal.catalog" [ngModelOptions]="{standalone: true}"
-               required  placeholder="eg.task" />
+        <label style="text-align: left">Category</label>
+        <p-dropdown [options]="selectCatalogLists" required [(ngModel)]="thresholdModal.catalog" (onChange)="onCatalogSelected($event.value)"
+                    [style]="{'width':'235px','text-align': 'left'}" name="catalog"></p-dropdown>
+        <!--<label for="catalog">Catalog</label>-->
+        <!--<input id="catalog" type="text" size="30" [(ngModel)]="thresholdModal.catalog" [ngModelOptions]="{standalone: true}"-->
+               <!--required  placeholder="eg.task" />-->
       </div>
       <div class="field input-div-container" >
+        <!--<label style="text-align: left">KPI</label>-->
+        <!--<p-dropdown [options]="selectKPILists" required [(ngModel)]="thresholdModal.kpi" [disabled]=true-->
+                    <!--[style]="{'width':'235px','text-align': 'left'}" [ngModelOptions]="{standalone: true}"></p-dropdown>-->
         <label for="kpi">KPI</label>
-        <input id="kpi" type="text" size="30" [(ngModel)]="thresholdModal.kpi" [ngModelOptions]="{standalone: true}"
-               required placeholder="eg. Bug Amount"/>
+        <input id="kpi" type="text" size="30" [(ngModel)]="thresholdModal.kpi" name="kpi"
+               [disabled]=true required/>
       </div>
       <div class="field input-div-container" >
-        <label for="overcast" >Overcast</label>
-        <input id="overcast" type="text" size="30" [(ngModel)]="thresholdModal.overCast" [ngModelOptions]="{standalone: true}"
-               required placeholder="overcast" />
+        <label for="overcast" >Cloud</label>
+        <input id="overcast" type="number" min="0" max="1" step="0.01" size="30" [(ngModel)]="thresholdModal.overCast" name="cloud"
+               required placeholder="please input number over 0 and below 1" />
       </div>
       <div class="field input-div-container" >
         <label for="rain">Rain</label>
-        <input id="rain" type="text" size="30" [(ngModel)]="thresholdModal.rain" [ngModelOptions]="{standalone: true}"
-               required placeholder="rain"/>
+        <input id="rain" type="number" min="0" max="1" step="0.01" size="30" [(ngModel)]="thresholdModal.rain" name="rain"
+               required placeholder="please input number over 0 and below 1"/>
       </div>
       <div class="field input-div-container" >
         <label for="message">Notice Message</label>
-        <input id="message" type="text" size="30" [(ngModel)]="thresholdModal.noticeMsg" [ngModelOptions]="{standalone: true}"
+        <input id="message" type="text" size="30" [(ngModel)]="thresholdModal.noticeMsg" name="noticeMsg"
                required placeholder="Notice Message"/>
       </div>
     </form>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="button" pButton class="action-button" icon="fa-close" (click)="thresholdModal.display=false" label="Cancel"></button>
-        <button type="submit" pButton class="action-button" icon="fa-check" (click)="onKPISubmit(thresholdModal)" label="Save"></button>
+        <button type="submit" pButton class="action-button" icon="fa-check" [disabled]="!userForm.form.valid" (click)="onKPISubmit(thresholdModal)" label="Save"></button>
       </div>
     </p-footer>
   </p-dialog>
@@ -68,14 +77,14 @@
         <p-column header="NO" colspan="2" rowspan="2"  [style]="{'width':'60px'}" ></p-column>
         <p-column header="Project" colspan="1" rowspan="2"></p-column>
         <p-column header="System" colspan="1" rowspan="2"></p-column>
-        <p-column header="Catalog" colspan="1" rowspan="2"></p-column>
+        <p-column header="Category" colspan="1" rowspan="2"></p-column>
         <p-column header="KPI" colspan="1" rowspan="2"></p-column>
         <p-column header="Setting Value Scope" colspan="2"  [style]="{'width':'140px'}" ></p-column>
         <p-column header="Notice Message" colspan="1" rowspan="2"></p-column>
         <p-column header="Action" colspan="1" rowspan="2" [style]="{'width':'180px'}"></p-column>
       </p-row>
       <p-row>
-        <p-column header="Overcast"></p-column>
+        <p-column header="Cloud"></p-column>
         <p-column header="Rain"></p-column>
       </p-row>
     </p-headerColumnGroup>

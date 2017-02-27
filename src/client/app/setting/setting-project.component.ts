@@ -28,11 +28,13 @@ export class SettingProjectComponent implements OnInit{
   projectModal: ProjectModal;
   selectedAddProject: string;
   projectSelectList: SelectItem[];
+  projectStatusList: SelectItem[];
 
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
     this.projectModal = new ProjectModal( "-1", "",false, "", "", new Date(),new Date());
+    this.projectStatusList = setingService.getSelectProjectStatusList();
   }
 
   ngOnInit() {

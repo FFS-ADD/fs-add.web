@@ -29,6 +29,8 @@ export class SettingThresholdComponent implements OnInit{
   selectedAddProject: string;
 
   selectProjectLists: SelectItem[];
+  selectSystemLists:SelectItem[];
+  selectCatalogLists:SelectItem[];
 
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
@@ -36,19 +38,39 @@ export class SettingThresholdComponent implements OnInit{
     this.thresholdModal = new ThresholdModal ( "-1", "",false, "", "", "", "", "", "", "");
     this.selectProjectLists = [];
     this.setingService.projectChange.subscribe((list:SelectItem[]) => this.selectProjectLists = list);
-    this.setingService.selectedProject.subscribe((project: Project) => this.onProjectSelect(project));
+    this.setingService.selectedProject.subscribe((project: Project) => this.onOutProjectSelect(project));
     this.setingService.unselectedProject.subscribe((flag: boolean) => this.onUnselectProject(flag));
+    this.selectSystemLists = setingService.getSelectSystemList();
 
   }
 
-  onProjectSelect(project: any) {
+  onSystemSelected(value: string) {
+
+    this.thresholdModal.system = value;
+    this.selectCatalogLists = this.setingService.getSelectCatalogList(value);
+
+  }
+
+  onCatalogSelected(value: string) {
+
+    this.thresholdModal.catalog = value;
+    this.thresholdModal.kpi = this.setingService.getCatalogInformation(value);
+
+  }
+
+  onProjectSelected(value: string) {
+
+    this.thresholdModal.project = value;
+
+  }
+
+  onOutProjectSelect(project: any) {
 
     this.thresholdShowList = this.thresholdAllList.filter( (threshold) => {
 
       return threshold.project === project.data.projectName;
 
     });
-
   }
 
   onUnselectProject(flag: boolean) {
@@ -63,7 +85,7 @@ export class SettingThresholdComponent implements OnInit{
 
   onKPISubmit(kpiInfo:ThresholdModal) {
 
-    let submitForm = new Threshold ( kpiInfo.id, kpiInfo.system, this.selectedAddProject,
+    let submitForm = new Threshold ( kpiInfo.id, kpiInfo.system, kpiInfo.project,
       kpiInfo.catalog, kpiInfo.kpi, kpiInfo.overCast, kpiInfo.rain, kpiInfo.noticeMsg);
 
     if( kpiInfo.id ===  "-1") {     // For new add

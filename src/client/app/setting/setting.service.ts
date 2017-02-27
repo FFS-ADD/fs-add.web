@@ -91,5 +91,60 @@ export class SettingService {
       .catch(this.handleError);
   }
 
+  getSelectProjectStatusList() {
+    let projectSelectList: SelectItem[] = [];
+    projectSelectList.push({"label": "Planning", "value": "Planning"});
+    projectSelectList.push({"label": "Work in Progress", "value": "Work in Progress"});
+    projectSelectList.push({"label": "Abort", "value": "Abort"});
+    projectSelectList.push({"label": "Closed", "value": "Closed"});
+    return projectSelectList;
+  }
+
+  getSelectSystemList() {
+    let systemSelectList: SelectItem[] = [];
+    systemSelectList.push({"label": "Redmine", "value": "Redmine"});
+    systemSelectList.push({"label": "SonarQube", "value": "SonarQube"});
+    return systemSelectList;
+  }
+
+  getSelectCatalogList(type:string) {
+    let catalogSelectList: SelectItem[] = [];
+
+    if( type === "Redmine") {
+      catalogSelectList.push({"label": "BackLog", "value": "BackLog"});
+      catalogSelectList.push({"label": "Task", "value": "Task"});
+      catalogSelectList.push({"label": "Bug", "value": "Bug"});
+      catalogSelectList.push({"label": "QA", "value": "QA"});
+    } else {
+      catalogSelectList.push({"label": "Source Health", "value": "Source Health"});
+    }
+    return catalogSelectList;
+  }
+
+  getCatalogInformation(value: string) {
+
+    let returnString = "";
+    switch(value)
+    {
+      case "BackLog":
+        returnString = "abs(actual hours -estimate hours)/ estimate";
+        break;
+      case "Task":
+        returnString = "Delayed task / task";
+        break;
+      case "Bug":
+        returnString = "Delayed bug / bug";
+        break;
+      case "QA":
+        returnString = "Open QA / QA";
+        break;
+      case "Source Health":
+      default:
+        returnString = "Source Coverage";
+        break;
+    }
+    return returnString;
+  }
+
 }
 

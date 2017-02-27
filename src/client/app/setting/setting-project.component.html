@@ -1,35 +1,38 @@
 <div>
 
   <p-dialog header="{{projectModal.title}}" width=500 height=510 modal=true [(visible)]="projectModal.display">
-    <form  class="form-project">
+    <form  class="form-project" #userForm="ngForm">
       <!--[formGroup]="projectForm" -->
       <div class="field input-div-container">
         <label for="projectName">ProjectName</label>
-        <input id="projectName" type="text" size="30"  [ngModelOptions]="{standalone: true}"
+        <input id="projectName" type="text" size="30"  name="projectName"
                required placeholder="eg.PJT" [(ngModel)]="projectModal.projectName" />
       </div>
       <div class="field input-div-container">
-        <label for="projectStatus">ProjectStatus</label>
-        <input id="projectStatus" type="text" size="30" [ngModelOptions]="{standalone: true}"
-               required  placeholder="eg.In progress" [(ngModel)]="projectModal.projectStatus" />
+        <label style="text-align: left">projectStatus</label>
+        <p-dropdown [options]="projectStatusList" required [(ngModel)]="projectModal.projectStatus"
+                    [style]="{'width':'235px','text-align': 'left'}" name="projectStatus"></p-dropdown>
+        <!--<label for="projectStatus">ProjectStatus</label>-->
+        <!--<input id="projectStatus" type="text" size="30" [ngModelOptions]="{standalone: true}"-->
+               <!--required  placeholder="eg.In progress" [(ngModel)]="projectModal.projectStatus" />-->
       </div>
       <div class="field input-div-container" >
         <label>Last Updated Day</label>
         <p-calendar [(ngModel)]="projectModal.updateDay" [inputStyle]="{'width':'235px','height': '30px'}"
                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
-                    [ngModelOptions]="{standalone: true}"></p-calendar>
+                    name="updateDay"></p-calendar>
       </div>
       <div class="field input-div-container" >
         <label>End Day</label>
         <p-calendar [(ngModel)]="projectModal.endDay" [inputStyle]="{'width':'235px','height': '30px'}"
                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
-                    [ngModelOptions]="{standalone: true}"></p-calendar>
+                    name="endDay"></p-calendar>
       </div>
     </form>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
-        <button type="submit" pButton class="action-button" icon="fa-check" (click)="onProjectSubmit(projectModal)" label="Save"></button>
+        <button type="submit" pButton class="action-button" icon="fa-check" [disabled]="!userForm.form.valid" (click)="onProjectSubmit(projectModal)" label="Save"></button>
       </div>
     </p-footer>
   </p-dialog>

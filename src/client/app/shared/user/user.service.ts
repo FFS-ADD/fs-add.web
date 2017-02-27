@@ -1,5 +1,5 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 
@@ -26,9 +26,16 @@ export class UserService {
   login(user:any) {
     user.grant_type = 'password';
     let headers = new Headers();
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
     headers.append("Authorization", "Basic ZnMtYWRkLm1vYmlsZToxMjM0NTY3ODkw");
+    let bodyData = new URLSearchParams();
+    Object.keys(user).map((k) => {
+      if (user.hasOwnProperty(k)) {
+        bodyData.set(k, user[k]);
+      }
+    });
     this.loginUserName = user.username;
-    return this.http.post(this.authenticatedApi, user, { headers: headers })
+    return this.http.post(this.authenticatedApi, bodyData, { headers: headers })
                     .map(this.extractLoginData)
                     .catch(this.handleError);
   }
