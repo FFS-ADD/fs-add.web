@@ -35,7 +35,7 @@ export class SettingThresholdComponent implements OnInit{
   constructor(private setingService: SettingService, private http: Http, private fb: FormBuilder,
               private _router: Router, private confirmationService: ConfirmationService) {
     this.selectedAddProject="";
-    this.thresholdModal = new ThresholdModal ( "-1", "",false, "", "", "", "", "", "", "");
+    this.thresholdModal = new ThresholdModal ( "-1", "",false, "", "", "", "", 0, 0, "");
     this.selectProjectLists = [];
     this.setingService.projectChange.subscribe((list:SelectItem[]) => this.selectProjectLists = list);
     this.setingService.selectedProject.subscribe((project: Project) => this.onOutProjectSelect(project));
@@ -90,7 +90,7 @@ export class SettingThresholdComponent implements OnInit{
 
     if( kpiInfo.id ===  "-1") {     // For new add
       //Temp add the id should be add by backend
-      submitForm.id = this.thresholdAllList.length + 1 + "";
+      submitForm.id = "";
       this.setingService.createThreshold(submitForm)
         .subscribe(
           (resThreshold: Threshold)=> {
@@ -108,7 +108,7 @@ export class SettingThresholdComponent implements OnInit{
   }
 
   addThreshold() {
-    this.thresholdModal = new ThresholdModal ( "-1", "Add Threshold",true, "", "", "", "", "", "", "");
+    this.thresholdModal = new ThresholdModal ( "-1", "Add Threshold",true, "", "", "", "", 0, 0, "");
   }
 
   editThreshold(threshold: ThresholdModal) {

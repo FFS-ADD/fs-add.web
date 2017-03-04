@@ -8,7 +8,7 @@ import { UnauthenticatedGuard } from './../unauthenticated.guard';
     RouterModule.forChild([
       { path: 'setting',
         component: SettingComponent,
-        canActivate: [UnauthenticatedGuard]
+        // canActivate: [UnauthenticatedGuard]
       }
     ])
   ],

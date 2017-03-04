@@ -2,7 +2,7 @@
   <div class="logo-img"></div>
   <h1>Agile&DevOps Dashboard</h1>
   <div class="more show_on_mobile"></div>
-  <button *ngIf="!user_logined" (click)="login()" >
+  <button *ngIf="!user_logined">
     <a [routerLink]="['/login']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Sign in</a>
   </button>
   <span *ngIf="user_logined">

@@ -4,11 +4,11 @@ export class Threshold {
   system: string;
   catalog: string;
   kpi: string;
-  overCast: string;
-  rain: string;
+  overCast: number;
+  rain: number;
   noticeMsg: string;
   constructor(id: string, system: string, project: string, catalog: string,
-              kpi: string,overCast: string, rain: string, noticeMsg: string){
+              kpi: string, overCast: number, rain: number, noticeMsg: string){
     this.id = id;
     this.system = system;
     this.project = project;
@@ -58,8 +58,8 @@ export class ThresholdModal extends Threshold{
   display: boolean;
 
   constructor(id: string, title: string, display: boolean, system: string,
-              project: string, catalog: string, kpi: string,overCast: string, rain:
-                string, noticeMsg: string){
+              project: string, catalog: string, kpi: string,overCast: number, rain:
+                number, noticeMsg: string){
     super(id, system,project,catalog,kpi,overCast,rain,noticeMsg);
     this.title = title;
     this.display = display;

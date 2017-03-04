@@ -28,13 +28,13 @@
                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" dateFormat="mm/dd/yy"
                     name="endDay"></p-calendar>
       </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
+          <button type="submit" pButton class="action-button" icon="fa-check" [disabled]="!userForm.form.valid" (click)="onProjectSubmit(projectModal)" label="Save"></button>
+        </div>
+      </p-footer>
     </form>
-    <p-footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton class="action-button" icon="fa-close" (click)="projectModal.display=false" label="Cancel"></button>
-        <button type="submit" pButton class="action-button" icon="fa-check" [disabled]="!userForm.form.valid" (click)="onProjectSubmit(projectModal)" label="Save"></button>
-      </div>
-    </p-footer>
   </p-dialog>
 
   <div class="div-padding-bottom">
