@@ -12,11 +12,11 @@
 
         <form  *ngIf="!submitted" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
           <md-input-container class="input-width">
-            <input md-input formControlName="username" required placeholder="username">
+            <input mdInput formControlName="username" required placeholder="username">
           </md-input-container>
           <br>
           <md-input-container class="input-width">
-            <input md-input formControlName="password" type="password"  required placeholder="password">
+            <input mdInput formControlName="password" type="password"  required placeholder="password">
           </md-input-container>
           <br>
           <br>

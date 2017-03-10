@@ -1,5 +1,4 @@
-import { Inject } from '@angular/core';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,7 +6,6 @@ import { USER_STATUS_CODES } from '../shared/user/user-status-codes';
 import { UserService } from '../shared/user/user.service';
 
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/interval';
 
 function userValidator(control: FormControl): { [s: string]: boolean }  {
