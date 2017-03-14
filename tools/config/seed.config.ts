@@ -1,8 +1,8 @@
-import { join } from 'path';
+import {join} from 'path';
 import * as slash from 'slash';
-import { argv } from 'yargs';
+import {argv} from 'yargs';
 
-import { BuildType, ExtendPackages, InjectableDependency } from './seed.config.interfaces';
+import {BuildType, ExtendPackages, InjectableDependency} from './seed.config.interfaces';
 
 /************************* DO NOT CHANGE ************************
  *
@@ -83,9 +83,9 @@ export class SeedConfig {
   COVERAGE_PORT = argv['coverage-port'] || 4004;
 
   /**
-  * The path to the coverage output
-  * NB: this must match what is configured in ./karma.conf.js
-  */
+   * The path to the coverage output
+   * NB: this must match what is configured in ./karma.conf.js
+   */
   COVERAGE_DIR = 'coverage_js';
   COVERAGE_TS_DIR = 'coverage';
 
@@ -311,13 +311,13 @@ export class SeedConfig {
    * @type {InjectableDependency[]}
    */
   NPM_DEPENDENCIES: InjectableDependency[] = [
-    { src: 'zone.js/dist/zone.js', inject: 'libs' },
-    { src: 'zone.js/dist/long-stack-trace-zone.js', inject: 'libs', buildType: BUILD_TYPES.DEVELOPMENT },
-    { src: 'core-js/client/shim.min.js', inject: 'shims' },
-    { src: 'intl/dist/Intl.min.js', inject: 'shims' },
-    { src: 'systemjs/dist/system.src.js', inject: 'shims', buildType: BUILD_TYPES.DEVELOPMENT },
+    {src: 'zone.js/dist/zone.js', inject: 'libs'},
+    {src: 'zone.js/dist/long-stack-trace-zone.js', inject: 'libs', buildType: BUILD_TYPES.DEVELOPMENT},
+    {src: 'core-js/client/shim.min.js', inject: 'shims'},
+    {src: 'intl/dist/Intl.min.js', inject: 'shims'},
+    {src: 'systemjs/dist/system.src.js', inject: 'shims', buildType: BUILD_TYPES.DEVELOPMENT},
     // Temporary fix. See https://github.com/angular/angular/issues/9359
-    { src: '.tmp/Rx.min.js', inject: 'libs', buildType: BUILD_TYPES.DEVELOPMENT },
+    {src: '.tmp/Rx.min.js', inject: 'libs', buildType: BUILD_TYPES.DEVELOPMENT},
   ];
 
   /**
@@ -325,7 +325,7 @@ export class SeedConfig {
    * @type {InjectableDependency[]}
    */
   APP_ASSETS: InjectableDependency[] = [
-    { src: `${this.CSS_SRC}/main.${this.getInjectableStyleExtension()}`, inject: true, vendor: false },
+    {src: `${this.CSS_SRC}/main.${this.getInjectableStyleExtension()}`, inject: true, vendor: false},
   ];
 
   /**
@@ -368,10 +368,8 @@ export class SeedConfig {
       '@angular/compiler/testing': 'node_modules/@angular/compiler/bundles/compiler-testing.umd.js',
       '@angular/core/testing': 'node_modules/@angular/core/bundles/core-testing.umd.js',
       '@angular/http/testing': 'node_modules/@angular/http/bundles/http-testing.umd.js',
-      '@angular/platform-browser/testing':
-        'node_modules/@angular/platform-browser/bundles/platform-browser-testing.umd.js',
-      '@angular/platform-browser-dynamic/testing':
-        'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
+      '@angular/platform-browser/testing': 'node_modules/@angular/platform-browser/bundles/platform-browser-testing.umd.js',
+      '@angular/platform-browser-dynamic/testing': 'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
       '@angular/router/testing': 'node_modules/@angular/router/bundles/router-testing.umd.js',
       '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
       'angular-in-memory-web-api': 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
@@ -380,8 +378,7 @@ export class SeedConfig {
       'dist/dev/*': '/base/dist/dev/*',
       '*': 'node_modules/*'
     },
-    packages: {
-    }
+    packages: {}
   };
 
   /**
@@ -475,8 +472,7 @@ export class SeedConfig {
    * White list for CSS color guard
    * @type {[string, string][]}
    */
-  COLOR_GUARD_WHITE_LIST: [string, string][] = [
-  ];
+  COLOR_GUARD_WHITE_LIST: [string, string][] = [];
 
   /**
    * Configurations for NPM module configurations. Add to or override in project.config.ts.
@@ -553,13 +549,14 @@ export class SeedConfig {
    * }
    */
   getProxyMiddleware(): Array<any> {
-   const proxyMiddleware = require('http-proxy-middleware');
-   return [
+    const proxyMiddleware = require('http-proxy-middleware');
+    return [
       proxyMiddleware('/boot', {
-          ws: false,
-          target: 'http://localhost:9090'
-         })
-      ];
+        ws: true,
+        target: 'http://localhost:9090',
+        changeOrigin: true,
+      })
+    ];
   }
 
   /**
@@ -574,8 +571,8 @@ export class SeedConfig {
       coverageReporter: {
         dir: this.COVERAGE_DIR + '/',
         reporters: [
-          { type: 'json', subdir: '.', file: 'coverage-final.json' },
-          { type: 'html', subdir: '.' }
+          {type: 'json', subdir: '.', file: 'coverage-final.json'},
+          {type: 'html', subdir: '.'}
         ]
       },
       remapIstanbulReporter: {

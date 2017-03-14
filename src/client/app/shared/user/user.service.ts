@@ -21,7 +21,7 @@ export class UserService {
 
   private userlistURL = 'app/userlist';
   private projectSettingURL = 'app/projectSettings'
-  private authenticatedApi = 'http://localhost:9090/boot/oauth/token';
+  private authenticatedApi = '/boot/oauth/token';
 
   login(user:any) {
     user.grant_type = 'password';
